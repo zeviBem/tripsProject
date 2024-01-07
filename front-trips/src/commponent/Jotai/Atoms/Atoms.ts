@@ -6,3 +6,6 @@ export const typedTextAtom = atom("");
 export const tripByCategoryAtom = atom("");
 export const tripDataAtom = atom<TripInterFace[]>([]);
 export const loadingAtom = atom(false) 
+export const tripByIdAtom = atom("")
+export const tripBiIdDataAtom = atom<TripInterFace | null>(null);
+

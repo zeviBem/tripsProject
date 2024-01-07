@@ -1,34 +1,21 @@
 import { trpc } from "../../trpcClaient/trpcClaient";
-import React, { useState, useEffect } from 'react';
-import { TripInterFaceReade } from "back-trips/src/resource/interfaces/tripInterFace";
+import React, { useEffect } from 'react';
 import { Link, useParams } from "react-router-dom";
+import useGetTripById from "../Jotai/getTripByIdGlobal";
+import { useAtom } from "jotai";
+import { loadingAtom } from "../Jotai/Atoms/Atoms";
 
 const ById: React.FC = () => {
-  const [dataById, setDataById] = useState<TripInterFaceReade | null>(null);
-  const [loading, setLoading] = useState(true)
-  const params = useParams<{ id: string }>();
-  
-  useEffect(() => {
-    const fetchData = async () => {
-        try {
-            if (params.id) {
-                const res = await trpc.getTripById.query(params.id) as TripInterFaceReade;
-                console.log('ID from URL:', params.id);
 
-                if (res === undefined) {
-                console.error('API response is undefined:', res);
-                } else {
-                setDataById(res);
-                }
-            }
-          } catch (error) {
-            console.error('Error calling getTripById query:', error);
-            // Handle error, show error message, or redirect
-          }
-          
-    };
-    fetchData();
-  }, [params.id]); 
+  const params = useParams<{ id: string }>();
+  const [loading] = useAtom(loadingAtom);
+  const { dataById, getTripByIdGlobal } = useGetTripById();
+
+  useEffect(() => {
+    if (params.id) {
+    getTripByIdGlobal(params.id)
+    }
+  }, [params.id])
   return (
     <div>
       
@@ -46,6 +33,7 @@ const ById: React.FC = () => {
                       <h1 className="mb-4 text-4xl font-bold leading-none tracking-tight text-gray-800">{dataById.title}</h1>
                       <p className="leading-normal">{dataById.description}</p>
                       <div className="md:text-3xl">Price: {dataById.price}</div>
+                      <div className="w-1/2">Category: {dataById.category}</div>
                       <div className="flex flex-row items-center mt-4 text-gray-700">
                           <div className="w-1/2">
                               Location: {dataById.land}, {dataById.city}, {dataById.street}.

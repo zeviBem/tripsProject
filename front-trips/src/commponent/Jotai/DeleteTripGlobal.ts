@@ -1,6 +1,6 @@
 import { trpc } from '../../trpcClaient/trpcClaient';
 import { useSetAtom } from 'jotai';
-import { tripDataAtom } from '../Atoms/Atoms';
+import { tripDataAtom } from './Atoms/Atoms';
 
 const useDeleteTrip = () => {
     const setDataAllTrips = useSetAtom(tripDataAtom);

@@ -1,8 +1,8 @@
 import { DataTypes, Model } from "sequelize";
 import { sequelize } from "./postgresQL";
-import { TripInterFaceReade } from "../resource/interfaces/tripInterFace";
+import { TripInterFaceRead, TripInterFaceCreate } from "../resource/interfaces/tripInterFace";
 
-export const Trips = sequelize.define<Model<TripInterFaceReade>>(
+export const Trips = sequelize.define<Model<TripInterFaceRead, TripInterFaceCreate>>(
     'trips', {
         id:{
             type: DataTypes.INTEGER,

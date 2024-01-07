@@ -1,25 +1,24 @@
-// import { trpc } from '../../trpcClaient/trpcClaient';
-// import { TripInterFace } from '../../interfaces/interface';
-// import { useAtom, useSetAtom } from 'jotai';
-// import { tripDataAtom, loadingAtom, tripByCategoryAtom} from '../Atoms/Atoms';
+import { trpc } from '../../trpcClaient/trpcClaient';
+import { TripInterFace } from '../../interfaces/interface';
+import { useAtom, useSetAtom } from 'jotai';
+import { loadingAtom, tripDataAtom } from './Atoms/Atoms';
 
-// const useGetAllTripsByCategory = () => {
-//   const [dataAllTripsByCategory, setAllTripsByCategory] = useAtom(tripDataAtom);
-//   const setIsLoading = useSetAtom(loadingAtom);
+const useGetTripByCategory = () => {
+    const setIsLoading = useSetAtom(loadingAtom);
+    const [dataByCategory, setDataByCategory] = useAtom(tripDataAtom)
 
-//   const getAllTripsByCategoryGlobal = async () => {
-//     try {
-//       setIsLoading(true);
-//       const res = (await trpc.getTripByCategoryName.query(tripByCategoryAtom)) as TripInterFace[];
-//       setAllTripsByCategory(res);
-//     } catch (error) {
-//       console.error('Error calling getAllCars query:', error);
-//     } finally {
-//       setIsLoading(false);
-//     }
-//   };
+    const getTripByCategoryGlobal = async (category: string) => { 
+        try {
+            setIsLoading(true);
+            const res = await trpc.getTripByCategoryName.query(category) as TripInterFace []
+            setDataByCategory(res)
+        } catch(error) {
+            console.error('Error calling getTripById query:', error)
+        }finally {
+            setIsLoading(false);
+        }
+    }
+    return { dataByCategory, getTripByCategoryGlobal };
+}
 
-//   return { dataAllTripsByCategory, getAllTripsByCategoryGlobal };
-// };
-
-// export default useGetAllTripsByCategory;
+export default useGetTripByCategory

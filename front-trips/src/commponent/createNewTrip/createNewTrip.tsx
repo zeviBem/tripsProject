@@ -1,7 +1,8 @@
-import { TripInterFaceReade } from "back-trips/src/resource/interfaces/tripInterFace";
+import { TripInterFaceCreate, TripInterFaceRead } from "back-trips/src/resource/interfaces/tripInterFace";
 import { trpc } from "../../trpcClaient/trpcClaient";
 import React, { ChangeEvent, FormEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
 
 const AddNewTrip: React.FC = () => {
     const navigate = useNavigate()
@@ -17,9 +18,7 @@ const AddNewTrip: React.FC = () => {
         description: '',
         price: '',
         activitytime: '',
-        category: "",
-        createdAt: new Date,
-        updatedAt: new Date
+        category: ""
     });
 
     const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -47,11 +46,12 @@ const AddNewTrip: React.FC = () => {
     const handleAddTrips = async (e: FormEvent<HTMLFormElement>) => {
         try {
             const res = await trpc.createNewTrip.mutate(newData);
-            console.log("trips added successfully", newData);
+            toast.success("trip added successful")
             navigate('/');
             return res;
         } catch (err) {
             console.error('Error adding car:', err);
+            toast.error("failed to create trip")
         }
     }
 
@@ -197,6 +197,7 @@ style={{ backgroundImage: 'url("https://img.mako.co.il/2019/09/19/49Places_To_Se
             <div className="flex justify-end mt-6">
                 <button className="px-6 py-2 leading-5 text-white transition-colors duration-200 transform bg-pink-500 rounded-md hover:bg-pink-700 focus:outline-none focus:bg-gray-600" type="submit">Add Trip</button>
             </div>
+            <ToastContainer />
         </form>
     </section>
 </div>

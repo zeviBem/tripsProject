@@ -1,9 +1,8 @@
 import { useEffect, ChangeEvent, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAtom } from 'jotai';
-import { trpc } from '../../trpcClaient/trpcClaient';
-import { tripDataAtom, typedTextAtom, tripByCategoryAtom } from '../Atoms/Atoms';
-import { TripInterFace } from '../../interfaces/interface';
+import { typedTextAtom, tripByCategoryAtom } from '../Jotai/Atoms/Atoms';
+import useGetTripByCategory from "../Jotai/globalGetByCategory";
 
 const images = [
   'https://img.mako.co.il/2019/09/19/49Places_To_See_Israel_Part2_19_i.jpg',
@@ -16,14 +15,14 @@ const HomePage = () => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [tripByCategory, setTripByCategory] = useAtom(tripByCategoryAtom);
   const [typedText, setTypedText] = useAtom(typedTextAtom);
-  const [dataByCategory, setDataByCategory] = useAtom(tripDataAtom);
+  const { dataByCategory, getTripByCategoryGlobal } = useGetTripByCategory()
 
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
     }, 5000);
 
-    const text = 'Register a category.';
+    const text = 'Register a category!.';
     let index = 0;
 
     const typingInterval = setInterval(() => {
@@ -48,26 +47,8 @@ const HomePage = () => {
   };
 
   const handleSubmit = async () => {
-    console.log('Search value:', tripByCategory);
-    try {
-      if (tripByCategory) {
-        console.log('Search value2:', tripByCategory);
-        const res = (await trpc.getTripByCategoryName.query(tripByCategory)) as TripInterFace[];
-        if (res === undefined) {
-          console.error('API response is undefined:', res);
-        } else {
-          setDataByCategory(res);
-          console.log('res:', res);
-        }
-      }
-    } catch (error) {
-      console.error('Error calling getTripByCategoryName query:', error);
-    }
+    getTripByCategoryGlobal(tripByCategory)
   };
-
-  useEffect(() => {
-    console.log('data', dataByCategory);
-  }, [dataByCategory]);
 
   return (
     <div>

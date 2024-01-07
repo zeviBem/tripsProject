@@ -2,7 +2,7 @@ import { error } from "console";
 import { router , publicProcedure} from "../Trpc/trpc"
 import { getAllTripsDal , createNewTripDal, getTripByIdDal, deleteTripByIdDal, editTripByIdDal, getTripByCategoryNameDal } from '../resource/Trips/DalTrips';
 import { z } from "zod"
-import { TripInterFaceReade } from "../resource/interfaces/tripInterFace";
+import { TripInterFaceRead } from "../resource/interfaces/tripInterFace";
 
 
 export const appRouter = router({
@@ -43,7 +43,7 @@ export const appRouter = router({
     })).mutation(async (opts) => {
       const {input} = opts
       try {
-        const createTrip = await createNewTripDal(opts.input as TripInterFaceReade);
+        const createTrip = await createNewTripDal(opts.input as TripInterFaceRead);
         return createTrip;
       } catch (err) {
         console.error('Error in creating a new trip:', err);
@@ -74,7 +74,8 @@ export const appRouter = router({
         imagealt: z.string(),
         description: z.string(),
         price: z.string(),
-        activitytime: z.string()
+        activitytime: z.string(),
+        category: z.string()
       })
     }) ).mutation( async(opts) => {
       try {

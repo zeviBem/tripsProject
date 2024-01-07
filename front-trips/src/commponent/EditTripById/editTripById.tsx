@@ -2,10 +2,15 @@ import { TripInterFace } from "front-trips/src/interfaces/interface";
 import { trpc } from "../../trpcClaient/trpcClaient";
 import { ChangeEvent, FormEvent, useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { number } from "zod";
+import { toast, ToastContainer } from "react-toastify";
+// import CustomToast from "../toastMasge/toastSuccess";
+import { useToasts } from 'react-toast-notifications';
+
+
 
 const EditTripById = () => {
   const navigate = useNavigate();
+  const { addToast } = useToasts();
   const params = useParams<{ id: string }>();
   const [editTrip, setEditTrip] = useState<TripInterFace | null>({
     id: 0,
@@ -78,19 +83,29 @@ const EditTripById = () => {
           id: params.id,
           updateData: editTrip || getDefaultEditTrip(),
         });
-        console.log("trips edit successfully", editTrip);
-        navigate("/getAllTrips");
+        // console.log("trips edit successfully", editTrip);
+            addToast('Success toast closed', {appearance: 'success'}), 
+            navigate("/getAllTrips");
         return res;
       }
     } catch (err) {
       console.error("Error edit trip:", err);
+  
+      // toast.error(<CustomToast message="Failed to edit trip" />, {
+      //   onClose: () => {
+      //     // You can handle additional actions after the error toast is closed
+      //   },
+      // });
     }
   };
+  
+  
   return (
         <div
         className="min-h-screen flex items-center justify-center"
         style={{ backgroundImage: `url(${editTrip?.imageurl || "https://img.mako.co.il/2019/09/19/49Places_To_See_Israel_Part2_7_i.jpg"})`, backgroundSize: 'cover' }}
       >
+        <ToastContainer />
         <section className="max-w-4xl p-6 rounded-md shadow-md bg-emerald-800 bg-opacity-80">
           <h1 className="text-xl font-bold text-black capitalize dark:text-white">Edit Trip</h1>
           <form onSubmit={handleEditTrips}>

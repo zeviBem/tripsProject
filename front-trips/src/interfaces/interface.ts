@@ -14,3 +14,5 @@ export interface TripInterFace {
     category: string;
     [key: string]: string | number; // Allow string keys with string or number values
 }
+
+

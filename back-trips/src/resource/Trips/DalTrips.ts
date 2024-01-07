@@ -1,5 +1,5 @@
 import { Trips } from "../../postgrasQL/ModelTrips";
-import { TripInterFaceReade } from "../interfaces/tripInterFace";
+import { TripInterFaceCreate } from "../interfaces/tripInterFace";
 
 export const getAllTripsDal = async () => {
   try {
@@ -27,7 +27,7 @@ export const getTripByIdDal = async (id: string) => {
 };
 
 
-export const createNewTripDal = async (newTrip: TripInterFaceReade) => {
+export const createNewTripDal = async (newTrip: TripInterFaceCreate) => {
   try {
     const createTrip = await Trips.create({ ...newTrip });
     console.log("Trips added successfully!");

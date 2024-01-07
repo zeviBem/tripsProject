@@ -1,7 +1,7 @@
 import { trpc } from '../../trpcClaient/trpcClaient';
 import { TripInterFace } from '../../interfaces/interface';
 import { useAtom, useSetAtom } from 'jotai';
-import { tripDataAtom, loadingAtom } from '../Atoms/Atoms';
+import { tripDataAtom, loadingAtom } from './Atoms/Atoms';
 
 const useGetAllTrips = () => {
   const [dataAllTrips, setDataAllTrips] = useAtom(tripDataAtom);

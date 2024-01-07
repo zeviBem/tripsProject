@@ -1,43 +1,18 @@
-import { TripInterFace } from "front-trips/src/interfaces/interface";
-import { useEffect, useState } from "react";
-import { trpc } from "../../trpcClaient/trpcClaient";
+import { useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
+import useGetTripByCategory from "../Jotai/globalGetByCategory";
 
 const GetByCategory = () => {
-    const [dataByCategory, setDataByCategory] = useState<TripInterFace[]>([]);
-    // const [tripByCategory, setTripByCategory] = useState("");
     const params = useParams<{ categoryName: string }>();
 
-      useEffect(() => {
-        const fetchData = async () => {
-          try {
-            if (params.categoryName) {
-              console.log("Search value2:", params.categoryName);
-              const res = (await trpc.getTripByCategoryName.query(
-                params.categoryName
-              )) as TripInterFace[];
-              if (res === undefined) {
-                console.error("API response is undefined:", res);
-              } else {
-                setDataByCategory(res);
-                console.log("res:", dataByCategory);
-                
-              }
-            }
-          } catch (error) {
-            console.error(
-              "Error calling getTripByCategoryName query:",
-              error
-            );
-          }
-        };
-    
-        fetchData();
-      },[]);
+    const { dataByCategory, getTripByCategoryGlobal } = useGetTripByCategory()
 
-      useEffect(()=>{
-        console.log('data',dataByCategory);
-      },[dataByCategory])
+      useEffect(() => {
+        if (params.categoryName) {
+          getTripByCategoryGlobal(params.categoryName)
+          console.log(params.categoryName)
+        }
+      },[])
 
     return (
         <div>
