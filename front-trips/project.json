@@ -1,0 +1,69 @@
+{
+  "name": "front-trips",
+  "$schema": "../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "front-trips/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nx/vite:build",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "outputPath": "dist/front-trips",
+        "postcssConfig": "/front-trips/postcss.config.js"
+      },
+      "configurations": {
+        "development": {
+          "mode": "development"
+        },
+        "production": {
+          "mode": "production"
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nx/vite:dev-server",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "front-trips:build"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "front-trips:build:development",
+          "hmr": true
+        },
+        "production": {
+          "buildTarget": "front-trips:build:production",
+          "hmr": false
+        }
+      }
+    },
+    "preview": {
+      "executor": "@nx/vite:preview-server",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "front-trips:build"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "front-trips:build:development"
+        },
+        "production": {
+          "buildTarget": "front-trips:build:production"
+        }
+      }
+    },
+    "test": {
+      "executor": "@nx/vite:test",
+      "outputs": ["{options.reportsDirectory}"],
+      "options": {
+        "reportsDirectory": "../coverage/front-trips"
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"]
+    }
+  },
+  "tags": []
+}

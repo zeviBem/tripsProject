@@ -1,0 +1,67 @@
+{
+  "name": "back-trips",
+  "$schema": "../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "back-trips/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nx/esbuild:esbuild",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "platform": "node",
+        "outputPath": "dist/back-trips",
+        "format": ["cjs"],
+        "bundle": false,
+        "main": "back-trips/src/main.ts",
+        "tsConfig": "back-trips/tsconfig.app.json",
+        "assets": ["back-trips/src/assets"],
+        "generatePackageJson": true,
+        "esbuildOptions": {
+          "sourcemap": true,
+          "outExtension": {
+            ".js": ".js"
+          }
+        }
+      },
+      "configurations": {
+        "development": {},
+        "production": {
+          "esbuildOptions": {
+            "sourcemap": false,
+            "outExtension": {
+              ".js": ".js"
+            }
+          }
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "back-trips:build"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "back-trips:build:development"
+        },
+        "production": {
+          "buildTarget": "back-trips:build:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"]
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "back-trips/jest.config.ts"
+      }
+    }
+  },
+  "tags": []
+}
