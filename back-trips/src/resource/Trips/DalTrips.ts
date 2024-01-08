@@ -2,16 +2,17 @@ import { Trips } from "../../postgrasQL/ModelTrips";
 import { TripInterFaceCreate } from "../interfaces/tripInterFace";
 
 export const getAllTripsDal = async () => {
-    const getAllData = await Trips.findAll({raw: true})
-    return getAllData; 
+    const getAllData = (await Trips.findAll()).map((trip) => {
+        return trip.dataValues;
+    })
+    return getAllData;
 };
 
 export const getTripByIdDal = async (id: string) => {
       const getById = await Trips.findOne({
           where: { id: id },
-          raw: true,
       });
-      return getById;
+      return getById.dataValues;
 };
 
 export const createNewTripDal = async (newTrip: TripInterFaceCreate) => {
@@ -34,10 +35,9 @@ export const editTripByIdDal = async(id: string, updateData: {}) => {
 }
 
 export const getTripByCategoryNameDal = async(categoryName: string) => {
-    const getByCategory = await Trips.findAll({
+    const getByCategory = (await Trips.findAll({
       where: { category: categoryName },
-      raw: true,
-    });
+    })).map((trip) => { return trip.dataValues});
     return getByCategory;
 }
   

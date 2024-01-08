@@ -28,9 +28,12 @@ return (
         dataAllTrips.map((item) => (
     <Link to={`/getById/${item.id}`} key={item.id}>
       <div className="bg-white rounded-lg border shadow-md max-w-xs md:max-w-none overflow-hidden" key={item.id}>
-        <img className="h-56 lg:h-60 w-full object-cover" src={item.imageurl} alt={item.imagealt} />
-        <p className="group-hover:opacity-60 transition duration-500 text-xl leading-5 text-gray-600 dark:text-white">{item.title}</p>
-       
+        <div className="relative group">
+          <img className="h-56 lg:h-60 w-full object-cover" src={item.imageurl} alt={item.imagealt} />
+          <p className="absolute bottom-0 left-0 p-4 text-4xl font-extrabold text-white border-text-black">
+            {item.title}
+          </p>
+        </div>
       <div className="flex aline-items-center justify-contact-center">
           <svg xmlns="http://www.w3.org/2000/svg"   className="h-10 w-8 mr-2 text-red-600 hover:text-red-700"
             fill="none" viewBox="0 0 24 24" stroke="currentColor" onClick={(event) => { handelPreventDeflate(event);  deleteTripGlobal(item.id) }}>

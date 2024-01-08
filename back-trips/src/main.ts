@@ -2,7 +2,8 @@ import { createHTTPServer } from '@trpc/server/adapters/standalone'
 import { connectToDBPg } from './postgrasQL/postgresQL';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import { appRouter } from './routers/tripsRouter'
+import { appRouter } from './routers/tripsRouter';
+import { connectToRedis } from './Redis/redisConnection';
 
 
 dotenv.config();
@@ -18,9 +19,10 @@ const server = createHTTPServer({
 
 const startServer = async () => {
   try {
+    await (connectToDBPg());
+    await(connectToRedis());
     server.listen(3000);
-    console.log(`listening on port ${port}`);    
-    await connectToDBPg();
+    console.log(`listening on port ${port}`); 
   } catch (error) {
     console.error('Error during server setup:', error);
     process.exit(1); 
