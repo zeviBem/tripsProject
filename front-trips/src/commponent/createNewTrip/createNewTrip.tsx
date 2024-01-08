@@ -1,4 +1,3 @@
-import { TripInterFaceCreate, TripInterFaceRead } from "back-trips/src/resource/interfaces/tripInterFace";
 import { trpc } from "../../trpcClaient/trpcClaient";
 import React, { ChangeEvent, FormEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";

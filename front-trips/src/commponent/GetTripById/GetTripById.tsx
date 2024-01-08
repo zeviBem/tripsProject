@@ -1,14 +1,11 @@
-import { trpc } from "../../trpcClaient/trpcClaient";
 import React, { useEffect } from 'react';
 import { Link, useParams } from "react-router-dom";
 import useGetTripById from "../Jotai/getTripByIdGlobal";
-import { useAtom } from "jotai";
-import { loadingAtom } from "../Jotai/Atoms/Atoms";
+
 
 const ById: React.FC = () => {
 
   const params = useParams<{ id: string }>();
-  const [loading] = useAtom(loadingAtom);
   const { dataById, getTripByIdGlobal } = useGetTripById();
 
   useEffect(() => {

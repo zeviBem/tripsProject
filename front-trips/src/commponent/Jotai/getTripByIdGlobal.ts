@@ -18,7 +18,7 @@ const useGetTripById = () => {
             setIsLoading(false);
         }
     }
-    return { dataById, getTripByIdGlobal };
+    return { dataById, setDataById, getTripByIdGlobal };
 }
 
 export default useGetTripById
