@@ -16,17 +16,13 @@ export default function Header() {
         </svg>
         <span className="ml-2 font-semibold text-[#252C32]">What a Market</span>
       </div>
-
-      {/* <div className="ml-6 flex flex-1 gap-x-3">
-        <input type="text" className="w-full rounded-md border border-[#DDE2E4] px-3 py-2 text-sm" defaultValue="DJI phantom" />
-      </div> */}
-
+      
       <div className="ml-2 flex">
         <div className="ml-2 flex cursor-pointer items-center gap-x-1 rounded-md border py-2 px-4 hover:bg-gray-100">
           <span className="text-sm font-medium" onClick={() => navigate('/')}>Home</span>
         </div>
         <div className="ml-2 flex cursor-pointer items-center gap-x-1 rounded-md border py-2 px-4 hover:bg-gray-100">
-          <span className="text-sm font-medium">Sign in</span>
+          <span className="text-sm font-medium" onClick={() => navigate('/login')}>Sign in</span>
         </div>
       </div>
     </div>
