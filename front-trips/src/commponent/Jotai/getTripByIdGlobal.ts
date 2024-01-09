@@ -1,5 +1,4 @@
 import { trpc } from '../../trpcClaient/trpcClaient';
-import { TripInterFace } from '../../interfaces/interface';
 import { useAtom, useSetAtom } from 'jotai';
 import { loadingAtom, tripBiIdDataAtom } from './Atoms/Atoms';
 
@@ -10,7 +9,7 @@ const useGetTripById = () => {
     const getTripByIdGlobal = async (id: string) => { 
         try {
             setIsLoading(true);
-            const res = await trpc.getTripById.query(id) as TripInterFace
+            const res = await trpc.getTripById.query(id)
             setDataById(res)
         } catch(error) {
             console.error('Error calling getTripById query:', error)
