@@ -1,0 +1,53 @@
+{
+  "name": "post-graphil",
+  "$schema": "../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "post-graphil/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nx/webpack:webpack",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "target": "node",
+        "compiler": "tsc",
+        "outputPath": "dist/post-graphil",
+        "main": "post-graphil/src/main.ts",
+        "tsConfig": "post-graphil/tsconfig.app.json",
+        "assets": ["post-graphil/src/assets"],
+        "webpackConfig": "post-graphil/webpack.config.js"
+      },
+      "configurations": {
+        "development": {},
+        "production": {}
+      }
+    },
+    "serve": {
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "post-graphil:build"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "post-graphil:build:development"
+        },
+        "production": {
+          "buildTarget": "post-graphil:build:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"]
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "post-graphil/jest.config.ts"
+      }
+    }
+  },
+  "tags": []
+}

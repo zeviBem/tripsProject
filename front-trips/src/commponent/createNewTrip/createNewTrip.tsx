@@ -1,15 +1,12 @@
-import { TripInterFaceCreate, TripInterFaceRead } from "back-trips/src/resource/interfaces/tripInterFace";
 import { trpc } from "../../trpcClaient/trpcClaient";
 import React, { ChangeEvent, FormEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import {  ToastContainer } from "react-toastify";
-import { useToasts } from 'react-toast-notifications';
+
 
 
 const AddNewTrip: React.FC = () => {
     const navigate = useNavigate()
     const [isSubmitting, setIsSubmitting] = useState(false);
-    const { addToast } = useToasts();
     const [newData, setNewData] = useState({
         title: '',
         city: '',
@@ -51,14 +48,12 @@ const AddNewTrip: React.FC = () => {
         try {
             setIsSubmitting(true)
             const res = await trpc.createNewTrip.mutate(newData);
-            addToast('Trip created Successful ', { appearance: 'success' });
             setTimeout(() => {
               navigate("/getAllTrips");
             }, 3000);
             return res;
         } catch (err) {
             console.error('Error adding car:', err);
-            addToast('failed to crete trip!', { appearance: 'error' });
         } finally {
             setIsSubmitting(false)
         }
@@ -70,7 +65,6 @@ const AddNewTrip: React.FC = () => {
 className="min-h-screen flex items-center justify-center"
 style={{ backgroundImage: 'url("https://img.mako.co.il/2019/09/19/49Places_To_See_Israel_Part2_7_i.jpg")', backgroundSize: 'cover' }}
 >
-    <ToastContainer />
     <section className="max-w-4xl p-6 rounded-md shadow-md bg-emerald-800 bg-opacity-60">
         <h1 className="text-xl font-bold text-black capitalize dark:text-white">Add New Trip</h1>
         <form onSubmit={handleAddTrips}>
