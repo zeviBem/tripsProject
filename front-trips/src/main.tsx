@@ -2,7 +2,8 @@ import { StrictMode } from 'react';
 import * as ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'jotai';
-import { ToastProvider } from 'react-toast-notifications'; 
+import { ApolloProvider } from '@apollo/client';
+import apolloClient from './apolloClient/apolloClient';
 
 import App from './app/app';
 
@@ -12,11 +13,11 @@ const root = ReactDOM.createRoot(
 root.render(
   <StrictMode>
     <Provider>
-      <ToastProvider>
       <BrowserRouter>
-        <App />
+        <ApolloProvider client={apolloClient}>
+          <App />
+        </ApolloProvider>
       </BrowserRouter>
-      </ToastProvider>
     </Provider>
   </StrictMode>
 );

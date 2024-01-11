@@ -1,9 +1,7 @@
-import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom";
 
 
 export default function Header() {
-    const [isMenuOpen, setMenuOpen] = useState(false);
     const navigate = useNavigate()
 
     return (
@@ -23,6 +21,9 @@ export default function Header() {
         </div>
         <div className="ml-2 flex cursor-pointer items-center gap-x-1 rounded-md border py-2 px-4 hover:bg-gray-100">
           <span className="text-sm font-medium" onClick={() => navigate('/login')}>Sign in</span>
+        </div>
+        <div className="ml-2 flex cursor-pointer items-center gap-x-1 rounded-md border py-2 px-4 hover:bg-gray-100">
+          <span className="text-sm font-medium" onClick={() => navigate('/allUsers')}>all Users</span>
         </div>
       </div>
     </div>

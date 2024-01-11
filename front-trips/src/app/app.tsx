@@ -10,6 +10,7 @@ import EditTripById from '../commponent/EditTripById/editTripById';
 import GetByCategory from '../commponent/GetByCategory/GetByCategory';
 import LogIn from '../commponent/Login/login';
 import Register from '../commponent/Register/register';
+import GetAllUsers from '../Graphiql/getAllUsers/getAllusers';
 
 export function App() {
   return (
@@ -45,6 +46,9 @@ export function App() {
           <Route 
             path='/register'
             element={<Register />} />
+          <Route 
+            path='/allUsers'
+            element={<GetAllUsers />} />
         </Routes>
 
       <Footer />

@@ -2,13 +2,10 @@ import { TripInterFace } from "front-trips/src/interfaces/interface";
 import { trpc } from "../../trpcClaient/trpcClaient";
 import { ChangeEvent, FormEvent, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { ToastContainer } from "react-toastify";
-import { useToasts } from 'react-toast-notifications';
 import useGetTripById from "../Jotai/getTripByIdGlobal";
 
 const EditTripById = () => {
   const navigate = useNavigate();
-  const { addToast } = useToasts();
   const params = useParams<{ id: string }>();
   const { dataById, setDataById, getTripByIdGlobal } = useGetTripById();
 
@@ -57,7 +54,6 @@ const EditTripById = () => {
           id: params.id,
           updateData: dataById || getDefaultEditTrip(),
         });
-        addToast('Trip edited Successful ', { appearance: 'success' });
         setTimeout(() => {
           navigate("/getAllTrips");
         }, 3000);
@@ -66,7 +62,6 @@ const EditTripById = () => {
       } 
     } catch (err) {
       console.error("Error edit trip:", err);
-      addToast('failed to edited trip!', { appearance: 'error' });
     }
   };
 
@@ -77,7 +72,6 @@ const EditTripById = () => {
         className="min-h-screen flex items-center justify-center"
         style={{ backgroundImage: `url(${dataById?.imageurl || "https://img.mako.co.il/2019/09/19/49Places_To_See_Israel_Part2_7_i.jpg"})`, backgroundSize: 'cover' }}
       >
-        <ToastContainer />
         <section className="max-w-4xl p-6 rounded-md shadow-md bg-emerald-800 bg-opacity-80">
           <h1 className="text-xl font-bold text-black capitalize dark:text-white">Edit Trip</h1>
           <form onSubmit={handleEditTrips}>

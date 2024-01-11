@@ -1,4 +1,7 @@
 import { useNavigate } from "react-router-dom";
+import { useQuery } from "@apollo/client";
+import { GET_USER_BY_EMAIL} from "../../Graphiql/QueryAndMutation/queryes";
+import { ChangeEvent, useState } from "react";
 const styles = {
     banner: {
       background: 'url(\'https://s1.1zoom.me/b6058/448/Dogs_Svetlana_Shelemeteva_Hug_Little_girls_568770_1920x1080.jpg\')',
@@ -9,6 +12,31 @@ const styles = {
 
 const LogIn = () => {
     const navigate = useNavigate();
+
+    const [inputLogin, setInputLogin] = useState({
+        email: '',
+        password: '',
+      });
+    
+    // const { loading, error, data } = useQuery(GET_USER_BY_EMAIL, {
+    //     variables: {inputLogin.email} 
+    // });
+
+    // if (loading) return <p>Loading...</p>;
+    // if (error) return <p>Error: {error.message}</p>;
+  
+    // const user = data.usersTableByEmail;
+
+    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+        setInputLogin({
+        ...inputLogin,
+        [e.target.name]: e.target.value,
+        });
+    };
+
+    // const handleLogin = (
+    //     if ()
+    // )
     return (
 <div>
 <div className='grid grid-cols-12'>
@@ -18,12 +46,12 @@ const LogIn = () => {
                     Sign In                    
                     <div className="pt-10 pr-20">                        
                         <label className="text-sm font-sans font-medium">
-                            Username
+                            Email
                         </label>
                         <input 
                             type="text" 
-                            name="username" 
-                            placeholder="Write your username" 
+                            name="email" 
+                            placeholder="Write your email" 
                             className="w-full bg-black py-3 px-12 border hover: border-gray-500 rounded shadow text-base font-sans rounded-full"/>                            
                     </div>
                     <div className="pt-2 pr-20">
