@@ -8,4 +8,15 @@ export const CREATE_USER = gql`
   }
 `;
 
+export const LOGIN_WITH_JWT = gql`
+  mutation Authenticate($input: AuthenticateInput!) {
+    authenticate(input: $input) {
+      jwtToken
+      __typename
+
+    }
+  }
+`;
+
+
 

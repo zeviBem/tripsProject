@@ -32,7 +32,7 @@ const HomePage = () => {
       if (index === text.length - 1) {
         clearInterval(typingInterval);
       }
-    }, 100);
+    }, 100, [typedText]);
 
     return () => {
       clearInterval(interval);

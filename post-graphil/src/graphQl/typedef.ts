@@ -2,8 +2,12 @@ import { gql } from "postgraphile"
 
 export const typeDef = gql`
 
-input User {
-    
+type User {
+    id: Int
+    username: String
+    email: String!
+    password: String!
+    isAdmin: Boolean
 }
 input LoginUserInput {
   email: String!

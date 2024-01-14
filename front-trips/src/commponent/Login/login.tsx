@@ -1,7 +1,8 @@
 import { useNavigate } from "react-router-dom";
-import { useQuery } from "@apollo/client";
-import { GET_USER_BY_EMAIL} from "../../Graphiql/QueryAndMutation/queryes";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
+import { LOGIN_WITH_JWT } from "../../Graphiql/QueryAndMutation/mutaion";
+import { useMutation } from "@apollo/client";
+
 const styles = {
     banner: {
       background: 'url(\'https://s1.1zoom.me/b6058/448/Dogs_Svetlana_Shelemeteva_Hug_Little_girls_568770_1920x1080.jpg\')',
@@ -11,84 +12,86 @@ const styles = {
   };
 
 const LogIn = () => {
+    const [loginUserMutation] = useMutation(LOGIN_WITH_JWT);
+    const [login, setLogin] = useState(false)
     const navigate = useNavigate();
-
     const [inputLogin, setInputLogin] = useState({
         email: '',
         password: '',
       });
-    
-    // const { loading, error, data } = useQuery(GET_USER_BY_EMAIL, {
-    //     variables: {inputLogin.email} 
-    // });
 
-    // if (loading) return <p>Loading...</p>;
-    // if (error) return <p>Error: {error.message}</p>;
-  
-    // const user = data.usersTableByEmail;
 
-    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
         setInputLogin({
         ...inputLogin,
         [e.target.name]: e.target.value,
         });
     };
 
-    // const handleLogin = (
-    //     if ()
-    // )
+    const handleLogin = async (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        console.log('Before mutation call');
+        try {
+            const { data } = await loginUserMutation({
+                variables: {
+                    input: {
+                        email: inputLogin.email,
+                        password: inputLogin.password
+                    }
+                }
+            })
+            setLogin(true)
+            const jwt = data.authenticate.jwtToken;
+            console.log('User login successfully!');
+            console.log("jwt", jwt);
+            
+        } catch (error) {
+            console.log('Error login user:', error);
+            
+        }
+    }
+
+    useEffect(() => {
+        if (login) {
+          console.log('loginSuccessfully');
+          navigate('/');
+        }
+      }, [login, navigate]);
     return (
-<div>
-<div className='grid grid-cols-12'>
-        <div className="col-span-4 text-white font-sans font-bold bg-emerald-900 min-h-screen pl-7">
-            <div className="grid grid-rows-6 grid-flow-col min-h-screen items-center justify-items-start">
-                <div className="row-span-4 row-start-2 text-4xl">
-                    Sign In                    
-                    <div className="pt-10 pr-20">                        
-                        <label className="text-sm font-sans font-medium">
-                            Email
-                        </label>
-                        <input 
-                            type="text" 
-                            name="email" 
-                            placeholder="Write your email" 
-                            className="w-full bg-black py-3 px-12 border hover: border-gray-500 rounded shadow text-base font-sans rounded-full"/>                            
+        <div
+        className="min-h-screen flex items-center justify-center"
+        style={{ backgroundImage: 'url("https://img.mako.co.il/2019/09/19/49Places_To_See_Israel_Part2_7_i.jpg")', backgroundSize: 'cover' }}
+        >
+            <section className="max-w-4xl p-6 rounded-md shadow-md bg-emerald-800 bg-opacity-60">
+                    <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
+                    <h1 className="text-3xl font-bold text-white capitalize dark:text-white">
+                        Sign in to your account
+                    </h1>
+                        <form className="space-y-4 md:space-y-6" action="#"  onSubmit={handleLogin}>
+                            <div>
+                                <label className="block mb-2 text-sm font-medium text-white dark:text-white">Your email</label>
+                                <input type="text" name="email" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Write your email" value={inputLogin.email} onChange={handleInputChange} />
+                            </div>
+                            <div>
+                                <label className="block mb-2 text-sm font-medium text-white dark:text-white">Password</label>
+                                <input type="password" name="password"  placeholder="••••••••" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value={inputLogin.password} onChange={handleInputChange} />
+                            </div>
+                            <div className="flex items-center justify-between">
+                                <a href="#" className="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500">Forgot password?</a>
+                            </div>
+                            <button type="submit" className="w-full text-white bg-pink-700 hover:bg-pink-900 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Sign in</button>
+                            <p className="text-sm font-light text-gray-500 dark:text-gray-400">
+                                Don’t have an account yet? <a href="#" className="font-medium text-primary-600 hover:underline dark:text-primary-500"  onClick={() => navigate('/register')}>Sign up</a>
+                            </p>
+                        </form>
                     </div>
-                    <div className="pt-2 pr-20">
-                        <label className="text-sm font-sans font-medium">
-                            Password
-                        </label>
-                        <input 
-                            type="password" 
-                            name="password" 
-                            placeholder="Write your password" 
-                            className="w-full bg-black py-3 px-12 border hover: border-gray-500 rounded shadow text-base font-sans rounded-full"
-                            />
-                        <a href="" className="text-sm font-sans font-medium text-gray-600 underline">
-                            Forgot password?
-                        </a>
-                    </div>
-                    <div className="text-sm font-sans font-medium w-full pr-20 pt-14">
-                        <button 
-                            type="button"   
-                            className="text-center w-full py-4 bg-black hover:bg-gray-400  text-white rounded-full">
-                                SIGN IN
-                        </button>
-                    </div>
-                </div>
-                <p className="text-sm font-sans font-medium text-gray-400 underline" onClick={() => navigate('/register')}>
-                    Don´t have an account? Sign up
-                </p>
-            </div>         
+            </section>
+
         </div>
-
-        <div className="banner col-span-8 text-white font-sans font-bold" style={styles.banner}>
-          <p>Some content here</p>
-        </div> 
-</div>
-
-</div>
     )
 }
 
 export default LogIn 
+
+
+
