@@ -10,11 +10,11 @@ const useDeleteTrip = () => {
     const navigate = useNavigate();
 
 
-    const deleteTripGlobal = async(id: number) => {
+    const deleteTripGlobal = async(id: number, token: string) => {
         const tokenStorage = localStorage.getItem('tokenKey');
         if (tokenStorage) {
             try {
-                const deleteTrip = (await trpc.deleteById.mutate(id)) 
+                const deleteTrip = (await trpc.deleteById.mutate({id, token})) 
                 console.log("delete trip successful!", deleteTrip);
                 setDataAllTrips((newData) => newData.filter((trip) => trip.id !== id));
 

@@ -15,6 +15,8 @@ const EditTripById = () => {
     }
   }, [params.id]);
 
+  const tokenStorage = localStorage.getItem('tokenKey')
+
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setDataById((prevData: TripInterFace | null) => {
@@ -52,6 +54,7 @@ const EditTripById = () => {
       if (params.id) {
         const res = await trpc.editTripById.mutate({
           id: params.id,
+          token: tokenStorage!,
           updateData: dataById || getDefaultEditTrip(),
         });
         setTimeout(() => {

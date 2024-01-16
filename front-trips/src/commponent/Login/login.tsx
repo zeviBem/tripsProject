@@ -2,8 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import { LOGIN_WITH_JWT } from '../../Graphiql/QueryAndMutation/mutaion';
 import { useMutation } from '@apollo/client';
-import { token } from '../Jotai/Atoms/Atoms';
-import { useAtom } from 'jotai';
+
 
 const LogIn = () => {
   const [loginUserMutation] = useMutation(LOGIN_WITH_JWT);

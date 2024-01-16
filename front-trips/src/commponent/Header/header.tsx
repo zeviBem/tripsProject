@@ -14,7 +14,7 @@ export default function Header() {
   };
 
   const handelSingOut = () => {
-    const deleteToken = localStorage.removeItem('tokenKey')
+    localStorage.removeItem('tokenKey')
     alert('are you shore you want sing out?');
     navigate('/')
   }

@@ -26,7 +26,7 @@ import postgraphile from "postgraphile";
       graphqlRoute: '/graphql',
       graphiqlRoute: '/graphiql',
       jwtPgTypeIdentifier: "test.jwt_token",
-      jwtSecret: "artyevjhdujbveftgbk"
+      jwtSecret: process.env.JWT_SECRET
     }))
   app.use(
     "/graphql",
