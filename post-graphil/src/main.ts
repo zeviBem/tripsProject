@@ -1,6 +1,6 @@
 import { morgan } from 'morgan';
 // import express from 'express';
-// import postgraphile from 'postgraphile';
+import postgraphile from 'postgraphile';
 // import cors from 'cors';
 // import 'dotenv/config'
 // const app = express();
@@ -112,7 +112,6 @@ import { morgan } from 'morgan';
 // })
 import cors from 'cors';
 import express from 'express';
-import postgraphile from './schema'
 
 const app = express();
 
