@@ -1,4 +1,3 @@
-import morgan from "morgan";
 import cors from "cors";
 import pg from 'pg';
 import express from 'express'
@@ -31,7 +30,6 @@ import postgraphile from "postgraphile";
   app.use(
     "/graphql",
     express.json(),
-    morgan("tiny"),
   );
 
 
