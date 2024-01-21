@@ -11,6 +11,8 @@ import GetByCategory from '../commponent/GetByCategory/GetByCategory';
 import LogIn from '../commponent/Login/login';
 import Register from '../commponent/Register/register';
 import GetAllUsers from '../Graphiql/getAllUsers/getAllusers';
+import Map from '../commponent/Maps/map';
+import MapByTrip from '../commponent/Maps/mapByTrip';
 
 export function App() {
   return (
@@ -49,6 +51,12 @@ export function App() {
           <Route 
             path='/allUsers'
             element={<GetAllUsers />} />
+          <Route 
+            path='/map'
+            element={<Map />} />
+          <Route 
+            path='/map/:id'
+            element={<MapByTrip />} />
         </Routes>
 
       <Footer />

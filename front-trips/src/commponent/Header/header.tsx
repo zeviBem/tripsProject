@@ -1,10 +1,10 @@
 import { Link, useNavigate } from 'react-router-dom';
+import userIcon from '../../images/userIcon.png';
 
 export default function Header() {
   const navigate = useNavigate();
-
+  const tokenStorage = localStorage.getItem('tokenKey');
   const handel = () => {
-    const tokenStorage = localStorage.getItem('tokenKey');
     if (tokenStorage) {
       navigate('/createNewTrip');
     } else {
@@ -13,12 +13,19 @@ export default function Header() {
     }
   };
 
+  const circle = () => {
+    if (tokenStorage) {
+      return <div className="w-2 h-2 bg-green-500 rounded-full"></div>;
+    }
+
+    return null; // אם אין טוקן, החזר null
+  };
+
   const handelSingOut = () => {
-    localStorage.removeItem('tokenKey')
+    localStorage.removeItem('tokenKey');
     alert('are you shore you want sing out?');
-    navigate('/')
-  }
-  
+    navigate('/');
+  };
 
   return (
     <div className="bg-white mb-5">
@@ -54,19 +61,31 @@ export default function Header() {
               </span>
             </div>
             <div className="ml-2 flex cursor-pointer items-center gap-x-1 rounded-md border py-2 px-4 hover:bg-gray-100">
+              {circle()}
               <span
                 className="text-sm font-medium"
                 onClick={() => navigate('/login')}
               >
-                Sign in
+                <img src={userIcon} className='w-6'/>
               </span>
             </div>
             <div className="ml-2 flex cursor-pointer items-center gap-x-1 rounded-md border py-2 px-4 hover:bg-gray-100">
-              <span
-                className="text-sm font-medium"
-                onClick={handelSingOut}
-              >
-                Sign out
+              <span className="text-sm font-medium" onClick={handelSingOut}>
+                <svg
+                  className="w-6 h-6 text-gray-800 dark:text-white"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 16 16"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M4 8h11m0 0-4-4m4 4-4 4m-5 3H3a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h3"
+                  />
+                </svg>
               </span>
             </div>
             <div className="ml-2 flex cursor-pointer items-center gap-x-1 rounded-md border py-2 px-4 hover:bg-gray-100">
@@ -87,6 +106,7 @@ export default function Header() {
               className="h-5 w-5 text-gray-500"
               viewBox="0 0 20 20"
               fill="currentColor"
+              onClick={ () => navigate('/map')}
             >
               <path
                 fillRule="evenodd"

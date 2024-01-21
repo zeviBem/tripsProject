@@ -5,7 +5,9 @@ export const checkToken = (token: string) => {
         if (process.env.JWT_SECRET) {
             const verify = jwt.verify(token, process.env.JWT_SECRET);
             const userName: string = (verify as JwtPayload).username 
+            console.log(userName);
             return userName
+            
         }
     } catch (error) {
         console.error(error);

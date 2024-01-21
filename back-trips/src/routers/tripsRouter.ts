@@ -1,27 +1,11 @@
 import { error } from "console";
 import { router , publicProcedure} from "../Trpc/trpc"
-import { getAllTripsDal , createNewTripDal, getTripByIdDal, deleteTripByIdDal, editTripByIdDal, getTripByCategoryNameDal } from '../resource/Trips/DalTrips';
+import { getAllTripsDal ,  getTripByIdDal, getTripByCategoryNameDal } from '../resource/Trips/DalTrips';
 import { z } from "zod"
-import { createTripsRedis } from "../Redis/DalRedis";
 import { createTripService, deleteByIdService, editByIdService } from "../resource/Trips/service";
-// import { getAllTripsRedis } from "../Redis/DalRedis";
 
 
 export const appRouter = router({
-  // getAllTrips: publicProcedure.query(async () => {
-  //     const dbPromise = getAllTripsDal().then((data) => ({ source: 'db', data }));
-  //     const redisPromise = getAllTripsRedis().then((data) => ({ source: 'redis', data }));
-
-  //     try {
-  //       const data = await Promise.any([dbPromise, redisPromise])
-  //       console.log("aaaaaaaa", data)
-  //         return await Promise.any([dbPromise, redisPromise]);
-          
-  //     } catch (error) {
-  //         console.error('Both Redis and DB queries failed:', error);
-  //         throw error;
-  //     }
-  // }),
   getAllTrips: publicProcedure.query(getAllTripsDal),
 
     getTripById: publicProcedure.input(z.string()).query(async (opts) => {

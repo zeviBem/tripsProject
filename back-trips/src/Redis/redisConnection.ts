@@ -4,7 +4,6 @@ import * as dotenv from 'dotenv';
 dotenv.config();
 
 const { REDIS_PASSWORD, REDIS_PORT, REDIS_HOST } =  process.env ;
-console.log(REDIS_PORT)
 
 export const client = createClient({
   password: REDIS_PASSWORD,
