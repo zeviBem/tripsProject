@@ -15,23 +15,24 @@ export const getTripByIdDal = async (id: string) => {
       return getById.dataValues;
 };
 
-export const createNewTripDal = async (newTrip: TripInterFaceCreate) => {
+export const createNewTripDal = async (token: string, newTrip: TripInterFaceCreate) => {
     const createTrip = await Trips.create({ ...newTrip });
     return createTrip.dataValues;
 };
 
-  export const deleteTripByIdDal = async (id: number) => {
+  export const deleteTripByIdDal = async (id: number, token: string) => {
       const deleteTrip = await Trips.destroy({
          where: { id: id } 
         });
-      return ( "deleted senseful");
+      return {"deleted senseful": token} ;
   };
 
-export const editTripByIdDal = async(id: string, updateData: {}) => {
+export const editTripByIdDal = async(id: string, token: string, updateData: {}) => {
     const updatedTrip = await Trips.update(updateData, {
       where: {id: id}
     })
-    return updateData;
+
+    return {updateData, token};
 }
 
 export const getTripByCategoryNameDal = async(categoryName: string) => {
@@ -42,4 +43,5 @@ export const getTripByCategoryNameDal = async(categoryName: string) => {
 }
   
   
+
 
