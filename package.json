@@ -9,7 +9,7 @@
   "private": true,
   "dependencies": {
     "@apollo/server": "^4.10.0",
-    "@apollo/client": "^3.8.9",
+    "@apollo/client": "^3.8.10",
     "@headlessui/react": "^1.7.17",
     "@heroicons/react": "^2.1.1",
     "@nrwl/node": "^17.2.7",
@@ -27,7 +27,6 @@
     "ol": "^8.2.0",
     "pg": "^8.11.3",
     "postgraphile": "^4.13.0",
-    "postgraphile-apollo-server": "^0.1.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-hook-form": "^7.49.2",

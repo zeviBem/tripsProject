@@ -8,8 +8,6 @@ import { useNavigate } from "react-router-dom";
 const useDeleteTrip = () => {
     const setDataAllTrips = useSetAtom(tripDataAtom);
     const navigate = useNavigate();
-
-
     const deleteTripGlobal = async(id: number, token: string) => {
         const tokenStorage = localStorage.getItem('tokenKey');
         if (tokenStorage) {
