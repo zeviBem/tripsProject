@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
+import { ChangeEvent, FormEvent, useState } from 'react';
 import { LOGIN_WITH_JWT } from '../../Graphiql/QueryAndMutation/mutaion';
 import { useMutation } from '@apollo/client';
 
