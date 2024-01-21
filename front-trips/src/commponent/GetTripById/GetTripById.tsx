@@ -1,18 +1,35 @@
 import React, { useEffect } from 'react';
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import useGetTripById from "../Jotai/getTripByIdGlobal";
+import MapByTrip from '../Maps/mapByTrip';
 
 
 const ById: React.FC = () => {
 
   const params = useParams<{ id: string }>();
   const { dataById, getTripByIdGlobal } = useGetTripById();
+  const navigate = useNavigate();
+
 
   useEffect(() => {
     if (params.id) {
     getTripByIdGlobal(params.id)
     }
   }, [params.id])
+
+  // const handleClick = () => {
+  //   return (
+  //     <div>
+  //       {dataById && (
+  //     <MapByTrip id={dataById.id} x={+dataById.coordinatesx} y={+dataById.coordinatesy}/>
+  //     )}
+  //     </div>
+  //   )
+
+  // }
+  const handleClick = () => {
+    navigate(`/map/${params.id}`);
+  };
   return (
     <div>
       
@@ -35,8 +52,8 @@ const ById: React.FC = () => {
                           <div className="w-1/2">
                               Location: {dataById.land}, {dataById.city}, {dataById.street}.
                           </div>
-                          <div className="w-1/2 flex justify-end">
-                              <img src={dataById.imageurl} alt={dataById.imagealt} className="w-8" />
+                          <div className="w-1/2 flex justify-end" onClick={handleClick}>
+                              <img src="https://3.bp.blogspot.com/-UJ6C88eMABM/V6q9qzqoReI/AAAAAAAAUgE/JlHU2F-QevsTCWFhBzbhYRG_wsJbuDXYwCLcB/s1600/%25D7%259C%25D7%2595%25D7%25A0%25D7%2593%25D7%2595%25D7%259F.gif" alt={dataById.imagealt} className="w-12" />
                           </div>
                       </div>
                   </div>
@@ -47,6 +64,7 @@ const ById: React.FC = () => {
                 </svg>
             </Link>
           </div>
+          {/* <MapByTrip id={dataById.id} x={+dataById.coordinatesx} y={+dataById.coordinatesy} /> */}
           </div>
         )}
     </div>

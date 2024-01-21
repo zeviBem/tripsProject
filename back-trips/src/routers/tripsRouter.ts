@@ -1,26 +1,11 @@
 import { error } from "console";
 import { router , publicProcedure} from "../Trpc/trpc"
-import { getAllTripsDal , createNewTripDal, getTripByIdDal, deleteTripByIdDal, editTripByIdDal, getTripByCategoryNameDal } from '../resource/Trips/DalTrips';
+import { getAllTripsDal ,  getTripByIdDal, getTripByCategoryNameDal } from '../resource/Trips/DalTrips';
 import { z } from "zod"
-import { createTripsRedis } from "../Redis/DalRedis";
-// import { getAllTripsRedis } from "../Redis/DalRedis";
+import { createTripService, deleteByIdService, editByIdService } from "../resource/Trips/service";
 
 
 export const appRouter = router({
-  // getAllTrips: publicProcedure.query(async () => {
-  //     const dbPromise = getAllTripsDal().then((data) => ({ source: 'db', data }));
-  //     const redisPromise = getAllTripsRedis().then((data) => ({ source: 'redis', data }));
-
-  //     try {
-  //       const data = await Promise.any([dbPromise, redisPromise])
-  //       console.log("aaaaaaaa", data)
-  //         return await Promise.any([dbPromise, redisPromise]);
-          
-  //     } catch (error) {
-  //         console.error('Both Redis and DB queries failed:', error);
-  //         throw error;
-  //     }
-  // }),
   getAllTrips: publicProcedure.query(getAllTripsDal),
 
     getTripById: publicProcedure.input(z.string()).query(async (opts) => {
@@ -40,52 +25,29 @@ export const appRouter = router({
         throw error
       }
     }),
-
-    // createNewTrip: publicProcedure.input(z.object({
-    //   title: z.string(),
-    //   city: z.string(),
-    //   land: z.string(),
-    //   street: z.string(),
-    //   coordinatesx: z.string(),
-    //   coordinatesy: z.string(),
-    //   imageurl: z.string(),
-    //   imagealt: z.string(),
-    //   description: z.string(),
-    //   price: z.string(),
-    //   activitytime: z.string(),
-    //   category: z.string(),
-    // })).mutation(async (opts) => {
-    //   const {title, city, land, street, coordinatesx, coordinatesy, imageurl, imagealt, description, price, activitytime, category} = opts.input
-    //   try {
-    //     const createTrip = await createNewTripDal({title, city, land, street, coordinatesx, coordinatesy, imageurl, imagealt, description, price, activitytime, category});
-    //     return createTrip;
-    //   } catch (err) {
-    //     console.error('Error in creating a new trip:', err);
-    //     throw err;
-    //   }
-    // }),
+    
     createNewTrip: publicProcedure.input(z.object({
-      title: z.string(),
-      city: z.string(),
-      land: z.string(),
-      street: z.string(),
-      coordinatesx: z.string(),
-      coordinatesy: z.string(),
-      imageurl: z.string(),
-      imagealt: z.string(),
-      description: z.string(),
-      price: z.string(),
-      activitytime: z.string(),
-      category: z.string(),
+      token: z.string(),
+      newData: z.object({
+        title: z.string(),
+        city: z.string(),
+        land: z.string(),
+        street: z.string(),
+        coordinatesx: z.string(),
+        coordinatesy: z.string(),
+        imageurl: z.string(),
+        imagealt: z.string(),
+        description: z.string(),
+        price: z.string(),
+        activitytime: z.string(),
+        category: z.string(),
+    })
     })).mutation(async (opts) => {
-      const {title, city, land, street, coordinatesx, coordinatesy, imageurl, imagealt, description, price, activitytime, category} = opts.input;
-      
-    const data = {title, city, land, street, coordinatesx, coordinatesy, imageurl, imagealt, description, price, activitytime, category}
-    const dbPromise = createNewTripDal(data).then((data) => ({ source: 'db', data }));
-    const redisPromise = createTripsRedis(data).then((data) => ({ source: 'redis', data }));
+      const {token, newData: {title, city, land, street, coordinatesx, coordinatesy, imageurl, imagealt, description, price, activitytime, category}} = opts.input;
+    const data = {title, city, land, street, coordinatesx, coordinatesy, imageurl, imagealt, description, price, activitytime, category};
       try {
-        // const createTrip = await createNewTripDal({title, city, land, street, coordinatesx, coordinatesy, imageurl, imagealt, description, price, activitytime, category});
-        return await Promise.any([dbPromise, redisPromise]);
+        const createTrip = await createTripService(token ,data);
+        return createTrip
         } catch (err) {
         console.error('Error in creating a new trip:', err);
         throw err;
@@ -93,9 +55,10 @@ export const appRouter = router({
     }),
 
 
-    deleteById: publicProcedure.input(z.number()).mutation(async (opts) => {
+    deleteById: publicProcedure.input(z.object({id: z.number(), token: z.string()})).mutation(async (opts) => {
       try {
-        const deleted = await deleteTripByIdDal(opts.input);
+        const { id, token } = opts.input
+        const deleted = await deleteByIdService( id, token );
         return deleted
       } catch (err) {
         console.error('Error in deletingTripById procedure:', err);
@@ -105,6 +68,7 @@ export const appRouter = router({
 
     editTripById: publicProcedure.input(z.object({
       id: z.string(),
+      token: z.string(),
       updateData: z.object({
         title: z.string(),
         city: z.string(),
@@ -119,10 +83,10 @@ export const appRouter = router({
         activitytime: z.string(),
         category: z.string()
       })
-    }) ).mutation( async(opts) => {
+    })).mutation( async(opts) => {
       try {
-        const { id, updateData } = opts.input;
-        const editTrip = await editTripByIdDal(id, updateData);
+        const { id, token, updateData } = opts.input;
+        const editTrip = await editByIdService(id, token, updateData);
         return editTrip;
       } catch(err) {
         console.error('Error in editTripById procedure:', err);
