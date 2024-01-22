@@ -1,8 +1,8 @@
 import { useEffect, ChangeEvent, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAtom } from 'jotai';
-import { typedTextAtom, tripByCategoryAtom } from '../Jotai/Atoms/Atoms';
-import useGetTripByCategory from "../Jotai/globalGetByCategory";
+import { typedTextAtom, tripByCityAtom } from '../Jotai/Atoms/Atoms';
+import useGetTripByCity from '../Jotai/getByCity';
 
 const images = [
   'https://img.mako.co.il/2019/09/19/49Places_To_See_Israel_Part2_19_i.jpg',
@@ -13,16 +13,16 @@ const images = [
 
 const HomePage = () => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [tripByCategory, setTripByCategory] = useAtom(tripByCategoryAtom);
+  const [tripByCity, setTripByCity] = useAtom(tripByCityAtom);
   const [typedText, setTypedText] = useAtom(typedTextAtom);
-  const { dataByCategory, getTripByCategoryGlobal } = useGetTripByCategory()
+  const { dataByCity, getTripByCityGlobal } = useGetTripByCity()
 
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
     }, 5000);
 
-    const text = 'Register a category!.';
+    const text = 'Register a city!.';
     let index = 0;
 
     const typingInterval = setInterval(() => {
@@ -43,11 +43,13 @@ const HomePage = () => {
   const selectImage = images[currentImageIndex];
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setTripByCategory(event.target.value);
+    setTripByCity(event.target.value);
   };
 
   const handleSubmit = async () => {
-    getTripByCategoryGlobal(tripByCategory)
+    getTripByCityGlobal(tripByCity)
+    setTripByCity('')
+    
   };
 
   return (
@@ -69,8 +71,8 @@ const HomePage = () => {
             <input
               className="h-12 min-w-[12rem] rounded-lg border-emerald-500 indent-4 text-emerald-900 shadow-lg focus:outline-none focus:ring focus:ring-emerald-600"
               type="text"
-              placeholder="search a category"
-              value={tripByCategory}
+              placeholder="search a city"
+              value={tripByCity}
               onChange={handleInputChange}
             />
             <button
@@ -82,9 +84,9 @@ const HomePage = () => {
           </div>
         </section>
       </div>
-      {dataByCategory.length > 0 && (
+      {dataByCity.length > 0 && (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-8">
-          {dataByCategory.map((trip) => (
+          {dataByCity.map((trip) => (
             <Link to={`/getById/${trip.id}`} key={trip.id}>
               <div
                 className="bg-white rounded-lg border shadow-md max-w-xs md:max-w-none overflow-hidden"

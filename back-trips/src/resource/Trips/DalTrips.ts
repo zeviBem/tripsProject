@@ -1,3 +1,5 @@
+import { MessageInterFaceReade } from './../interfaces/tripInterFace';
+import { Message } from "../../postgrasQL/ModelMassage";
 import { Trips } from "../../postgrasQL/ModelTrips";
 import { TripInterFaceCreate } from "../interfaces/tripInterFace";
 
@@ -40,6 +42,26 @@ export const getTripByCategoryNameDal = async(categoryName: string) => {
       where: { category: categoryName },
     })).map((trip) => { return trip.dataValues});
     return getByCategory;
+}
+
+export const getTripByCityDal = async(city: string) => {
+  const getByCity = (await Trips.findAll({
+    where: { city: city },
+  })).map((trip) => { return trip.dataValues});
+  return getByCity;
+}
+
+export const getMessageByTripIdDal = async(tripId: number) => {
+  const getByTripId = (await Message.findAll({
+    where: {trip_id: tripId},
+  })).map((m) => { return m.dataValues});
+  return getByTripId
+}
+
+
+export const createNewMessageDal = async (newMessage: MessageInterFaceReade) => {
+  const createMessage = await Message.create({...newMessage});
+  return createMessage.dataValues;
 }
   
   

@@ -1,12 +1,21 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from "react-router-dom";
 import useGetTripById from "../Jotai/getTripByIdGlobal";
-import MapByTrip from '../Maps/mapByTrip';
+import Dialog from '../Dialog/Dialog';
+import { trpc } from '../../trpcClaient/trpcClaient';
+import { MessageInterFaceReade } from 'back-trips/src/resource/interfaces/tripInterFace';
+
+export const opinionData = [
+  {name: 'zeev', text: "very enjoy"},
+  {name: 'elish', text: "very fun"}
+]
 
 
 const ById: React.FC = () => {
 
   const params = useParams<{ id: string }>();
+  const [opinion, setOpinion] = useState(false)
+  const [opinionData, setOpinionData] = useState<MessageInterFaceReade[]>([])
   const { dataById, getTripByIdGlobal } = useGetTripById();
   const navigate = useNavigate();
 
@@ -17,19 +26,22 @@ const ById: React.FC = () => {
     }
   }, [params.id])
 
-  // const handleClick = () => {
-  //   return (
-  //     <div>
-  //       {dataById && (
-  //     <MapByTrip id={dataById.id} x={+dataById.coordinatesx} y={+dataById.coordinatesy}/>
-  //     )}
-  //     </div>
-  //   )
 
-  // }
   const handleClick = () => {
     navigate(`/map/${params.id}`);
   };
+
+
+  const getOpinion = async () => {
+    try {
+      const res = await trpc.getMessageByTripId.query(Number(params.id))
+      setOpinionData(res || []);
+    } catch (error) {
+      console.error('Error calling get Message By id query:', error)
+    }
+  }
+  
+
   return (
     <div>
       
@@ -58,13 +70,34 @@ const ById: React.FC = () => {
                       </div>
                   </div>
               </div>
-              <Link  to={`/editTripById/${dataById.id}`} >
-                <svg className="h-12 w-10 text-blue-500 hover:text-blue-700"  fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/>
-                </svg>
-            </Link>
+              <div className='ml-2 flex justify-between'>
+              <div>
+                <Link  to={`/editTripById/${dataById.id}`} >
+                  <svg className="h-12 w-10 text-blue-500 hover:text-blue-700"  fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/>
+                  </svg>
+              </Link>
+            </div>
+            <div>
+        <span onClick={() => navigate(`/dialog/${params.id}`)}>add opinion</span>
+        {/* {showDialog && <Dialog />} */}
+      </div>
+            <div onClick={() => {setOpinion((prevOpinion) => !prevOpinion); getOpinion();}}>
+              {opinionData && (
+                <div>
+                  {opinionData.map((person) => (
+                    <div key={person.name}>
+                      <div>name: {person.name}</div>
+                      <p>{person.massage}</p>
+                    </div>
+                  ))}
+                </div>
+              )}
+              Opinion
+            </div>
+            </div>
+
           </div>
-          {/* <MapByTrip id={dataById.id} x={+dataById.coordinatesx} y={+dataById.coordinatesy} /> */}
           </div>
         )}
     </div>
@@ -72,5 +105,7 @@ const ById: React.FC = () => {
 };
 
 export default ById;
+
+
 
 

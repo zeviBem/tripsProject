@@ -1,6 +1,6 @@
 import { error } from "console";
 import { router , publicProcedure} from "../Trpc/trpc"
-import { getAllTripsDal ,  getTripByIdDal, getTripByCategoryNameDal } from '../resource/Trips/DalTrips';
+import { getAllTripsDal ,  getTripByIdDal, getTripByCategoryNameDal, getTripByCityDal, getMessageByTripIdDal, createNewMessageDal } from '../resource/Trips/DalTrips';
 import { z } from "zod"
 import { createTripService, deleteByIdService, editByIdService } from "../resource/Trips/service";
 
@@ -22,6 +22,14 @@ export const appRouter = router({
         return await getTripByCategoryNameDal(opts.input)
       } catch (err) {
         console.error('Error in getTripByCategoryName procedure:', err);
+        throw error
+      }
+    }),
+    getTripByCity: publicProcedure.input(z.string()).query(async (opts) => {
+      try {
+        return await getTripByCityDal(opts.input)
+      } catch (err) {
+        console.error('Error in get trip by city procedure:', err);
         throw error
       }
     }),
@@ -92,8 +100,29 @@ export const appRouter = router({
         console.error('Error in editTripById procedure:', err);
         throw err;
       }
+    }),
+
+    getMessageByTripId: publicProcedure.input(z.number()).query(async (opts) => {
+      try {
+        return await getMessageByTripIdDal(opts.input)
+      } catch (err) {
+        console.error('Error in get message by trip id procedure:', err);
+      }
+    }),
+
+    createNewMessage: publicProcedure.input(z.object({
+      trip_id: z.number(),
+      name: z.string(),
+      massage: z.string()
+    })).mutation(async (opts) => {
+      const {trip_id, name, massage} = opts.input;
+      const newMessage = {trip_id, name, massage}
+      try {
+      const createMessage = await createNewMessageDal(newMessage);
+      return createMessage
+    } catch (err){
+      console.error('Error in create message  procedure:', err);
+    }
     })
-    
-    
-    
+
 })

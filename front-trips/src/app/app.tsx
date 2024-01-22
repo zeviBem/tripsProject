@@ -13,6 +13,7 @@ import Register from '../commponent/Register/register';
 import GetAllUsers from '../Graphiql/getAllUsers/getAllusers';
 import Map from '../commponent/Maps/map';
 import MapByTrip from '../commponent/Maps/mapByTrip';
+import Test from '../commponent/Dialog/test';
 
 export function App() {
   return (
@@ -57,6 +58,9 @@ export function App() {
           <Route 
             path='/map/:id'
             element={<MapByTrip />} />
+          <Route 
+            path='/dialog/:id'
+            element={<Test />} />
         </Routes>
 
       <Footer />

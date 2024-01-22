@@ -1,13 +1,13 @@
 import { useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
-import useGetTripByCategory from "../Jotai/globalGetByCategory";
+import useGetTripByCity from "../Jotai/globalGetByCategory";
 import { useAtom } from "jotai";
 import { loadingAtom } from "../Jotai/Atoms/Atoms";
 
 const GetByCategory = () => {
   const params = useParams<{ categoryName: string }>();
   const [loading] = useAtom(loadingAtom);
-  const { dataByCategory, getTripByCategoryGlobal } = useGetTripByCategory();
+  const { dataByCategory, getTripByCategoryGlobal } = useGetTripByCity();
 
   useEffect(() => {
     if (params.categoryName) {

@@ -30,3 +30,8 @@ export interface TripInterFaceCreate {
   category: string;
 }
 
+export interface MessageInterFaceReade {
+  trip_id: number;
+  name: string;
+  massage: string;
+}

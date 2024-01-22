@@ -23,20 +23,8 @@ const GetAllTrips: React.FC = () => {
       event.preventDefault();
 
     }
-    // const editHandel = (id: number) => {
-    //   const tokenStorage = localStorage.getItem('tokenKey')
-    //   if (tokenStorage) {
-    //     navigate(`/editTripById/${id}`)
-    //   }
-    //   else {
-    //     alert("You need to sign in to create a new trip!")
-    //     navigate('/login')
-    //   }
-
-    // }
-
 return (
-  <div className="grid justify-center items-center md:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-7 my-10 min-h-screen bg-red">
+<div className="grid justify-center items-center md:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-7 my-10 min-h-screen">
     {loading ? (
       <div className="fixed top-0 right-0 h-screen w-screen z-50 flex justify-center items-center">
         <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-green-500"></div>
