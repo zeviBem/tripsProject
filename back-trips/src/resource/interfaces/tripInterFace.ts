@@ -31,7 +31,16 @@ export interface TripInterFaceCreate {
 }
 
 export interface MessageInterFaceReade {
+  id: number
   trip_id: number;
   name: string;
   massage: string;
 }
+
+export interface MessageInterFaceCreate {
+  trip_id: number;
+  name: string;
+  massage: string;
+}
+
+

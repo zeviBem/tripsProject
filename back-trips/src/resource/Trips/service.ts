@@ -39,6 +39,7 @@ export const createTripService = async (token: string, data: TripInterFaceCreate
             const dbPromise = createNewTripDal(token, data).then((data) => ({ source: 'db', data }));
             const redisPromise = createTripsRedis(token, data).then((data) => ({ source: 'redis', data }));
             return await Promise.any([dbPromise, redisPromise]);
+            // return dbPromise
         }
     } catch (error) {
         console.error('Error in editTripById procedure:', error);

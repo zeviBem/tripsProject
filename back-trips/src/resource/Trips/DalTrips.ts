@@ -1,7 +1,8 @@
-import { MessageInterFaceReade } from './../interfaces/tripInterFace';
+import { MessageInterFaceCreate, MessageInterFaceReade } from './../interfaces/tripInterFace';
 import { Message } from "../../postgrasQL/ModelMassage";
 import { Trips } from "../../postgrasQL/ModelTrips";
 import { TripInterFaceCreate } from "../interfaces/tripInterFace";
+import { ee } from '../../routers/tripsRouter';
 
 export const getAllTripsDal = async () => {
     const getAllData = (await Trips.findAll()).map((trip) => {
@@ -55,14 +56,28 @@ export const getMessageByTripIdDal = async(tripId: number) => {
   const getByTripId = (await Message.findAll({
     where: {trip_id: tripId},
   })).map((m) => { return m.dataValues});
+
+  // ee.emit('add', getByTripId)
   return getByTripId
 }
 
 
-export const createNewMessageDal = async (newMessage: MessageInterFaceReade) => {
-  const createMessage = await Message.create({...newMessage});
-  return createMessage.dataValues;
+export const createNewMessageDal = async (newMessage: MessageInterFaceCreate) => {
+  console.log("Input Data:", newMessage);
+
+  try {
+    const createMessage = await Message.create(newMessage);
+
+    ee.emit('add', createMessage);
+    console.log("success", createMessage, newMessage);
+
+    return createMessage.dataValues;
+  } catch (err) {
+    console.error('Error in create message procedure:', err);
+    throw err; // Re-throw the error so that it can be caught and handled elsewhere
+  }
 }
+
   
   
 

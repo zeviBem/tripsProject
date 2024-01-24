@@ -1,13 +1,18 @@
 import { DataTypes, Model } from "sequelize";
 import { sequelize } from "./postgresQL";
-import { MessageInterFaceReade } from "../resource/interfaces/tripInterFace";
+import { MessageInterFaceCreate, MessageInterFaceReade } from "../resource/interfaces/tripInterFace";
 
-export const Message = sequelize.define<Model<MessageInterFaceReade>>(
+export const Message = sequelize.define<Model<MessageInterFaceReade, MessageInterFaceCreate>>(
+    
     'messages' , {
-        trip_id:{
+        id: {
             type: DataTypes.INTEGER,
             primaryKey: true,
             autoIncrement: true,
+          },
+        trip_id:{
+            type: DataTypes.INTEGER,
+
         },
 
         name: {
@@ -23,10 +28,3 @@ export const Message = sequelize.define<Model<MessageInterFaceReade>>(
     }
 )
 
-export const createTableMessage = async ()=>{
-    try {
-      await Message.sync()
-    } catch (error) {
-      console.error(error);
-    }
-  }

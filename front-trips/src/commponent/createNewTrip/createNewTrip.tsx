@@ -51,9 +51,12 @@ const AddNewTrip: React.FC = () => {
         token: tokenStorage!,
         newData: newData,
       });
+      console.log("sucsses1", tokenStorage);
+      
       setTimeout(() => {
         navigate('/getAllTrips');
-      }, 3000);
+      }, 3000); 
+      console.log("sucsses2", res);     
       return res;
     } catch (err) {
       console.error('Error adding car:', err);

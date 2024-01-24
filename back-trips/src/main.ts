@@ -1,31 +1,34 @@
-import { createHTTPServer } from '@trpc/server/adapters/standalone'
+import { createHTTPServer } from "@trpc/server/adapters/standalone";
 import { connectToDBPg } from './postgrasQL/postgresQL';
 import cors from 'cors';
-import dotenv from 'dotenv';
-import { appRouter } from './routers/tripsRouter';
-import { connectToRedis } from './Redis/redisConnection';
+import { appRouter } from "./routers/tripsRouter";
+import {applyWSSHandler} from "@trpc/server/adapters/ws";
+import ws from "ws";
+import { connectToRedis } from "./Redis/redisConnection";
+import { createTable } from "./postgrasQL/ModelTrips";
 
+type AppRouter = typeof appRouter;
+export default AppRouter;
 
-dotenv.config();
-
-const port = process.env.PORT
-
-export type AppRouter = typeof appRouter;
-
-const server = createHTTPServer({
+const ourServer = createHTTPServer({
+  middleware: cors(),
   router: appRouter,
-  middleware: cors()
+  createContext() {
+    console.log('context 3');
+    return {};
+  },
+})
+
+applyWSSHandler({
+  wss: new ws.Server(ourServer),
+  router: appRouter,
+  createContext: () => {
+    return {};
+  }
 });
 
-const startServer = async () => {
-  try {
-    await (connectToDBPg());
-    await(connectToRedis());
-    server.listen(3000);
-    console.log(`listening on port ${port}`); 
-  } catch (error) {
-    console.error('Error during server setup:', error);
-    process.exit(1); 
-  }
-};
-startServer();
+console.log('server is up on port 3000');
+ourServer.listen(3000);
+connectToDBPg();
+// createTable();
+connectToRedis();

@@ -13,14 +13,18 @@ const images = [
 
 const HomePage = () => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [tripByCity, setTripByCity] = useAtom(tripByCityAtom);
+  const [tripByCity, setTripByCity] = useState(' ');
   const [typedText, setTypedText] = useAtom(typedTextAtom);
   const { dataByCity, getTripByCityGlobal } = useGetTripByCity()
 
+
   useEffect(() => {
+    
     const interval = setInterval(() => {
       setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
     }, 5000);
+    
+    if(!typedText){
 
     const text = 'Register a city!.';
     let index = 0;
@@ -28,17 +32,20 @@ const HomePage = () => {
     const typingInterval = setInterval(() => {
       setTypedText((prevText) => prevText + text[index]);
       index++;
-
+      
+      
       if (index === text.length - 1) {
         clearInterval(typingInterval);
       }
     }, 100, [typedText]);
-
+    
     return () => {
       clearInterval(interval);
       clearInterval(typingInterval);
+      setTripByCity('')
     };
-  }, [setCurrentImageIndex, setTypedText]);
+  }
+  }, []);
 
   const selectImage = images[currentImageIndex];
 
@@ -52,6 +59,7 @@ const HomePage = () => {
     
   };
 
+
   return (
     <div>
       <div
@@ -62,6 +70,7 @@ const HomePage = () => {
           backgroundPosition: 'center',
         }}
       >
+      
         <div className="w-full max-w-screen-xl h-80 opacity-50 filter blur-la z-10"></div>
         <section className="grid place-items-center bg-emerald-900 p-16 min-h-screen">
           <p className="hidden md:block animate-fade-in capitalize font-serif font-bold text-3xl text-center shadow-2xl text-white mt-10">

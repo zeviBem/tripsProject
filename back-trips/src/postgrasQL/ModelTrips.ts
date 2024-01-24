@@ -1,10 +1,11 @@
 import { DataTypes, Model } from "sequelize";
 import { sequelize } from "./postgresQL";
 import { TripInterFaceRead, TripInterFaceCreate } from "../resource/interfaces/tripInterFace";
+import { Message } from "./ModelMassage";
 
 export const Trips = sequelize.define<Model<TripInterFaceRead, TripInterFaceCreate>>(
     'trips', {
-        id:{
+        id: {
             type: DataTypes.INTEGER,
             primaryKey: true,
             autoIncrement: true,
@@ -56,8 +57,12 @@ export const Trips = sequelize.define<Model<TripInterFaceRead, TripInterFaceCrea
 
 export const createTable = async ()=>{
     try {
-      await Trips.sync()
+      await Trips.sync({alter: true})
+      await Message.sync({alter: true})
+    console.log('inital');
+    
     } catch (error) {
       console.error(error);
     }
   }
+

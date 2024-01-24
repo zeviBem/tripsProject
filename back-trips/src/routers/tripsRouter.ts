@@ -1,9 +1,16 @@
 import { error } from "console";
 import { router , publicProcedure} from "../Trpc/trpc"
-import { getAllTripsDal ,  getTripByIdDal, getTripByCategoryNameDal, getTripByCityDal, getMessageByTripIdDal, createNewMessageDal } from '../resource/Trips/DalTrips';
+import { getAllTripsDal ,  getTripByIdDal, getTripByCategoryNameDal, getTripByCityDal
+  , getMessageByTripIdDal, createNewMessageDal
+ } from '../resource/Trips/DalTrips';
 import { z } from "zod"
 import { createTripService, deleteByIdService, editByIdService } from "../resource/Trips/service";
 
+import { EventEmitter } from "events";
+import { observable } from '@trpc/server/observable';
+import { MessageInterFaceReade } from "../resource/interfaces/tripInterFace";
+
+export const ee = new EventEmitter();
 
 export const appRouter = router({
   getAllTrips: publicProcedure.query(getAllTripsDal),
@@ -110,15 +117,29 @@ export const appRouter = router({
       }
     }),
 
+    onAdd: publicProcedure.subscription(() => {
+      return observable<MessageInterFaceReade>((emit) => {
+        const onAdd = (data: MessageInterFaceReade) => {
+          emit.next(data)
+        }
+        ee.on('add',onAdd)
+
+        return () => {
+          ee.off('add', onAdd)
+        }
+      })
+    }),
+
     createNewMessage: publicProcedure.input(z.object({
       trip_id: z.number(),
       name: z.string(),
       massage: z.string()
     })).mutation(async (opts) => {
-      const {trip_id, name, massage} = opts.input;
+      const { trip_id, name, massage} = opts.input;
       const newMessage = {trip_id, name, massage}
       try {
       const createMessage = await createNewMessageDal(newMessage);
+      
       return createMessage
     } catch (err){
       console.error('Error in create message  procedure:', err);
