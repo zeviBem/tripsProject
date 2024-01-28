@@ -1,6 +1,6 @@
 import ById from '../commponent/GetTripById/GetTripById';
-import GetAllTrips from '../commponent/GetAllTrips/GetAllTrips';
-import "../styles.css"
+import GetAllTrips from '../commponent/GetAllTrips/CreateTripCard';
+import '../styles.css';
 import { Route, Routes } from 'react-router-dom';
 import AddNewTrip from '../commponent/createNewTrip/createNewTrip';
 import Header from '../commponent/Header/header';
@@ -14,54 +14,30 @@ import GetAllUsers from '../Graphiql/getAllUsers/getAllusers';
 import Map from '../commponent/Maps/map';
 import MapByTrip from '../commponent/Maps/mapByTrip';
 import Test from '../commponent/Dialog/test';
-
+import Father from '../commponent/stete/localState/father';
+import AllTrips from '../commponent/GetAllTrips/GetAllTrips';
 export function App() {
   return (
     <div>
       <Header />
       <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/getAllTrips" element={<AllTrips />} />
+        <Route path="/getById/:id" element={<ById />} />
+        <Route path="/createNewTrip" element={<AddNewTrip />} />
+        <Route path="/editTripById/:id" element={<EditTripById />} />
         <Route
-          path="/"
-          element={<HomePage />}
+          path="/getByCategory/:categoryName"
+          element={<GetByCategory />}
         />
-        <Route
-            path="/getAllTrips"
-            element={<GetAllTrips />}
-          />
-        <Route
-            path="/getById/:id"
-              element={<ById />} />
-
-          <Route
-            path='/createNewTrip'
-            element={<AddNewTrip />}
-            />
-          <Route
-            path='/editTripById/:id'
-            element={<EditTripById />}
-            />
-          <Route
-            path='/getByCategory/:categoryName'
-            element={<GetByCategory />} />
-          <Route 
-            path='/login'
-            element={<LogIn />} />
-          <Route 
-            path='/register'
-            element={<Register />} />
-          <Route 
-            path='/allUsers'
-            element={<GetAllUsers />} />
-          <Route 
-            path='/map'
-            element={<Map />} />
-          <Route 
-            path='/map/:id'
-            element={<MapByTrip />} />
-          <Route 
-            path='/dialog/:id'
-            element={<Test />} />
-        </Routes>
+        <Route path="/login" element={<LogIn />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/allUsers" element={<GetAllUsers />} />
+        <Route path="/showMap" element={<Map />} />
+        <Route path="/map/:id" element={<MapByTrip />} />
+        <Route path="/dialog/:id" element={<Test />} />
+        <Route path="/localState" element={<Father />} />
+      </Routes>
 
       <Footer />
     </div>

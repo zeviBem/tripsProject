@@ -1,5 +1,5 @@
 export interface TripInterFace {
-    id: number;
+    id?: number;
     title: string;
     city: string;
     land: string;
@@ -12,7 +12,7 @@ export interface TripInterFace {
     price: string;
     activitytime: string;
     category: string;
-    [key: string]: string | number; // Allow string keys with string or number values
+    [key: string]: string | number | undefined; // Allow string keys with string or number values
 }
 
 

@@ -11,16 +11,27 @@ import {
 } from "rlayers";
 import { Point } from "ol/geom";
 import location from '../../images/location.png';
-import useGetAllTrips from "../Jotai/globalAllTrips";
+import useGetAllTrips from "../GetAllTrips/GetAllTrips";
+import { trpc } from "../../trpcClaient/trpcClaient";
+import { TripInterFace } from "front-trips/src/interfaces/interface";
 
 
 
 export default function Interactions(): JSX.Element {
-  const { dataAllTrips, getAllTripsGlobal } = useGetAllTrips();
+  const [dataAllTrips, setDataAllTrips ] = useState<TripInterFace[]>([]);
   const [hoveredLocation, setHoveredLocation] = useState<string | null>(null);
 
   useEffect(() => {
-    getAllTripsGlobal();
+    const getAll = async () => {
+      try {
+        const res = await trpc.getAllTrips.query();
+        setDataAllTrips(res);
+      } catch (error) {
+        console.error('Error calling getAllTrips query:', error);
+      } finally {
+      }
+    };
+    getAll();
   }, []);
 
   return (

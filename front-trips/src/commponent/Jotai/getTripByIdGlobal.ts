@@ -21,3 +21,26 @@ const useGetTripById = () => {
 }
 
 export default useGetTripById
+
+// import { trpc } from '../../trpcClaient/trpcClaient';
+// import {  useSetAtom } from 'jotai';
+// import { loadingAtom, tripBiIdDataAtom } from './Atoms/Atoms';
+
+//     const setIsLoading = useSetAtom(loadingAtom);
+//     const  setDataById = useSetAtom(tripBiIdDataAtom)
+
+//     const getTripByIdGlobal = async (id: string) => { 
+//         try {
+//             setIsLoading(true);
+//             const res = await trpc.getTripById.query(id)
+//             setDataById(res)
+//         } catch(error) {
+//             console.error('Error calling getTripById query:', error)
+//         }finally {
+//             setIsLoading(false);
+//         }
+//         return { setDataById, getTripByIdGlobal };
+//     }
+  
+
+// export default useGetTripById

@@ -11,4 +11,5 @@ export const tripByIdAtom = atom("")
 export const tripBiIdDataAtom = atom<TripInterFace | null>(null);
 export const editTripByIdAtom = atom<TripInterFace | null>(null);
 export const token = atom<string | null>('')
+export const isConnected = atom<boolean>(false)
 

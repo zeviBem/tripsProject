@@ -2,11 +2,13 @@ import { useNavigate } from 'react-router-dom';
 import { ChangeEvent, FormEvent, useState } from 'react';
 import { LOGIN_WITH_JWT } from '../../Graphiql/QueryAndMutation/mutaion';
 import { useMutation } from '@apollo/client';
+import { useSetAtom } from 'jotai';
+import { isConnected } from '../Jotai/Atoms/Atoms';
 
 
 const LogIn = () => {
   const [loginUserMutation] = useMutation(LOGIN_WITH_JWT);
-  const [login, setLogin] = useState(false);
+  const  setLogin = useSetAtom(isConnected);
   const navigate = useNavigate();
   const [inputLogin, setInputLogin] = useState({
     email: '',
@@ -113,8 +115,7 @@ const LogIn = () => {
               Sign in
             </button>
             <p className="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500">
-              Don’t have an account yet?{' '}
-              <a
+              Don’t have an account yet?<a
                 href="/register"
                 className="font-medium text-primary-600 hover:underline dark:text-primary-500"
               >

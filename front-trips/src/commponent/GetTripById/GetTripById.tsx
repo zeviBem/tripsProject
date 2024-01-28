@@ -5,6 +5,7 @@ import { trpc } from '../../trpcClaient/trpcClaient';
 import { MessageInterFaceReade } from 'back-trips/src/resource/interfaces/tripInterFace';
 import angleDown from '../../images/angleDown.png';
 import angleUp from '../../images/angleUp.png';
+
 const ById: React.FC = () => {
   const params = useParams<{ id: string }>();
   const [opinion, setOpinion] = useState(false);
@@ -95,7 +96,7 @@ const ById: React.FC = () => {
                     <img
                       src="https://3.bp.blogspot.com/-UJ6C88eMABM/V6q9qzqoReI/AAAAAAAAUgE/JlHU2F-QevsTCWFhBzbhYRG_wsJbuDXYwCLcB/s1600/%25D7%259C%25D7%2595%25D7%25A0%25D7%2593%25D7%2595%25D7%259F.gif"
                       alt={dataById.imagealt}
-                      className="w-12"
+                      className="w-12 hover:cursor-pointer"
                     />
                   </div>
                 </div>
@@ -125,7 +126,7 @@ const ById: React.FC = () => {
                   setOpinion((prevOpinion) => !prevOpinion);
                   if (opinion) getOpinion();
                 }}
-                className='bg-gray-200'
+                className='bg-gray-200 w-[400px]'
               >
                 {opinion && (
                   <div className="mt-32">
@@ -156,11 +157,12 @@ const ById: React.FC = () => {
                 )}
                 {opinion ? (
                   <>
-                    <img src={angleUp} className="w-8" />
+                    <img src={angleUp} className="w-8 mx-auto" 
+                    />
                   </>
                 ) : (
                   <>
-                    <img src={angleDown} className="w-8" />
+                    <img src={angleDown} className="w-8 mx-auto" />
                   </>
                 )}{' '}
               </div>
@@ -179,3 +181,6 @@ const ById: React.FC = () => {
 };
 
 export default ById;
+
+
+

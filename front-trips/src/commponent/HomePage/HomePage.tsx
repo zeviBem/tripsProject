@@ -1,7 +1,7 @@
 import { useEffect, ChangeEvent, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAtom } from 'jotai';
-import { typedTextAtom, tripByCityAtom } from '../Jotai/Atoms/Atoms';
+import { typedTextAtom } from '../Jotai/Atoms/Atoms';
 import useGetTripByCity from '../Jotai/getByCity';
 
 const images = [
@@ -26,7 +26,7 @@ const HomePage = () => {
     
     if(!typedText){
 
-    const text = 'Register a city!.';
+    const text = 'Search a city!.';
     let index = 0;
 
     const typingInterval = setInterval(() => {

@@ -1,10 +1,15 @@
 import { Link, useNavigate } from 'react-router-dom';
 import userIcon from '../../images/userIcon.png';
 import travel from '../../images/travel.png'
+import { useAtom } from 'jotai';
+import { isConnected } from '../Jotai/Atoms/Atoms';
+
 
 export default function Header() {
+  const [connected, setIsConnected] = useAtom(isConnected)
   const navigate = useNavigate();
   const tokenStorage = localStorage.getItem('tokenKey');
+
   const handel = () => {
     if (tokenStorage) {
       navigate('/createNewTrip');
@@ -15,16 +20,16 @@ export default function Header() {
   };
 
   const circle = () => {
-    if (tokenStorage) {
+    if (connected || tokenStorage) {
       return <div className="w-2 h-2 bg-green-500 rounded-full"></div>;
     }
-
-    return null; // אם אין טוקן, החזר null
+    return null; 
   };
 
   const handelSingOut = () => {
     localStorage.removeItem('tokenKey');
     alert('are you shore you want sing out?');
+    setIsConnected(false)
     navigate('/');
   };
 
@@ -60,11 +65,16 @@ export default function Header() {
               </span>
             </div>
 
-            <div className="ml-2 flex cursor-pointer items-center gap-x-1 rounded-md border py-2 px-4 bg-sky-100 hover:bg-sky-200">
+            {/* <div className="ml-2 flex cursor-pointer items-center gap-x-1 rounded-md border py-2 px-4 bg-sky-100 hover:bg-sky-200">
               <span className="text-sm font-medium" onClick={() => navigate('/dialog')}>
                   All!
               </span>
             </div>
+            <div className="ml-2 flex cursor-pointer items-center gap-x-1 rounded-md border py-2 px-4 bg-sky-100 hover:bg-sky-200">
+              <span className="text-sm font-medium" onClick={() => navigate('/localState')}>
+                  State
+              </span>
+            </div> */}
             
             <div className="ml-2 flex cursor-pointer items-center gap-x-1 rounded-md border py-2 px-4 bg-sky-100 hover:bg-sky-200">
               {circle()}
@@ -102,10 +112,10 @@ export default function Header() {
           <div className="flex gap-x-2 py-1 px-2">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="h-5 w-5 text-gray-500"
+              className="h-5 w-5 text-gray-500 hover:cursor-pointer"
               viewBox="0 0 20 20"
               fill="currentColor"
-              onClick={() => navigate('/map')}
+              onClick={() => navigate('/showMap')}
             >
               <path
                 fillRule="evenodd"
