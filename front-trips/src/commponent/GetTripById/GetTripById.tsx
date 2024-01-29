@@ -5,6 +5,7 @@ import angleDown from '../../images/angleDown.png';
 import angleUp from '../../images/angleUp.png';
 import Dialog from './Dialog';
 import Messages from './Messages';
+import edit from '../../images/edit.png';
 
 const ById: React.FC = () => {
   const params = useParams<{ id: string }>();
@@ -71,19 +72,7 @@ const ById: React.FC = () => {
             <div className="ml-2 flex justify-between">
               <div>
                 <Link to={`/editTripById/${dataById.id}`}>
-                  <svg
-                    className="h-12 w-10 text-blue-500 hover:text-blue-700"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
-                    />
-                  </svg>
+                  <img src={edit} className="w-10" />
                 </Link>
               </div>
               <div className="bg-gray-200 w-[400px]">
@@ -105,13 +94,12 @@ const ById: React.FC = () => {
                     />
                   </>
                 )}
-
               </div>
               <div>
                 <button
                   data-ripple-light="true"
                   data-dialog-target="dialog"
-                  className="middle none center mr-4 rounded-lg bg-gradient-to-tr from-green-600 to-green-400 py-3 px-6 font-sans text-xs font-bold uppercase text-white shadow-md shadow-green-500/20 transition-all hover:shadow-lg hover:shadow-green-500/40 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                  className="middle none center rounded-lg bg-gradient-to-tr from-green-600 to-green-400 py-3 px-6 font-sans text-xs font-bold uppercase text-white shadow-md shadow-green-500/20 transition-all hover:shadow-lg hover:shadow-green-500/40 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                   onClick={() => setOpen(true)}
                 >
                   Add Opinion
