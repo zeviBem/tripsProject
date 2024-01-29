@@ -6,6 +6,8 @@ import { ApolloProvider } from '@apollo/client';
 import apolloClient from './apolloClient/apolloClient';
 
 import App from './app/app';
+import { QueryClientProvider } from 'react-query';
+import { queryClient } from './trpcClaient/trpcClaient';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -15,7 +17,9 @@ root.render(
     <Provider>
       <BrowserRouter>
         <ApolloProvider client={apolloClient}>
-          <App />
+          <QueryClientProvider client={queryClient}>
+            <App />
+          </QueryClientProvider>
         </ApolloProvider>
       </BrowserRouter>
     </Provider>

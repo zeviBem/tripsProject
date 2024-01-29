@@ -13,7 +13,6 @@ import Register from '../commponent/Register/register';
 import GetAllUsers from '../Graphiql/getAllUsers/getAllusers';
 import Map from '../commponent/Maps/map';
 import MapByTrip from '../commponent/Maps/mapByTrip';
-import Test from '../commponent/Dialog/test';
 import Father from '../commponent/stete/localState/father';
 import AllTrips from '../commponent/GetAllTrips/GetAllTrips';
 export function App() {
@@ -35,7 +34,6 @@ export function App() {
         <Route path="/allUsers" element={<GetAllUsers />} />
         <Route path="/showMap" element={<Map />} />
         <Route path="/map/:id" element={<MapByTrip />} />
-        <Route path="/dialog/:id" element={<Test />} />
         <Route path="/localState" element={<Father />} />
       </Routes>
 

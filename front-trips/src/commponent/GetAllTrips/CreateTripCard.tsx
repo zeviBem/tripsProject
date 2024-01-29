@@ -38,7 +38,7 @@ const CreateTripCard = (props: TripInterFace) => {
                 stroke="currentColor"
                 onClick={(event) => {
                   handelPreventDeflate(event);
-                  deleteTripGlobal(props.id, tokenStorage!);
+                  deleteTripGlobal(props.id!, tokenStorage!);
                 }}
               >
                 <path

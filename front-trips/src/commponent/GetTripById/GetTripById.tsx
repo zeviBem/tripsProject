@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import useGetTripById from '../Jotai/getTripByIdGlobal';
-import { trpc } from '../../trpcClaient/trpcClaient';
-import { MessageInterFaceReade } from 'back-trips/src/resource/interfaces/tripInterFace';
 import angleDown from '../../images/angleDown.png';
 import angleUp from '../../images/angleUp.png';
+import Dialog from './Dialog';
+import Messages from './Messages';
 
 const ById: React.FC = () => {
   const params = useParams<{ id: string }>();
   const [opinion, setOpinion] = useState(false);
-  const [opinionData, setOpinionData] = useState<MessageInterFaceReade[]>([]);
   const { dataById, getTripByIdGlobal } = useGetTripById();
   const navigate = useNavigate();
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     if (params.id) {
@@ -22,40 +22,6 @@ const ById: React.FC = () => {
   const handleClick = () => {
     navigate(`/map/${params.id}`);
   };
-
-  const subscribeToMessages = async () => {
-    try {
-      await trpc.onAdd.subscribe(undefined, {
-        onData: (data) => {
-          setOpinionData((prevMessages) => [...prevMessages, data]);
-          
-          
-        },
-        onError: (err) => {
-          console.error('Subscription error:', err);
-        },
-      });
-    } catch (err) {
-      console.error('Error subscribing to messages:', err);
-    }
-  };
-  console.log("sub", opinionData);
-
-  const getOpinion = async () => {
-    try {
-      const res = await trpc.getMessageByTripId.query(Number(params.id));
-      setOpinionData(res || []);
-      
-    } catch (error) {
-      console.error('Error calling get Message By id query:', error);
-    }
-  };
-
-  useEffect(() => {
-    subscribeToMessages();
-    getOpinion();
-  }, [])
-  
 
   return (
     <div>
@@ -120,57 +86,39 @@ const ById: React.FC = () => {
                   </svg>
                 </Link>
               </div>
-
-              <div
-                onClick={() => {
-                  setOpinion((prevOpinion) => !prevOpinion);
-                  if (opinion) getOpinion();
-                }}
-                className='bg-gray-200 w-[400px]'
-              >
-                {opinion && (
-                  <div className="mt-32">
-                    {opinionData.map((person, index) => (
-                      <div key={index}>
-                        <div className="flex items-center space-x-2 mb-5">
-                          <div className="flex flex-shrink-0 self-start cursor-pointer">
-                            <div className="h-8 w-8 rounded-full bg-gray-500 flex items-center justify-center">
-                              <p className="text-xl text-white">
-                                {person.name[0]}
-                              </p>
-                            </div>
-                          </div>
-                          <div className="flex items-center justify-center space-x-2">
-                            <div className="block">
-                              <div className="bg-gray-100 w-auto rounded-xl px-2 pb-2">
-                                <div className="font-medium">
-                                  <small>{person.name}</small>
-                                </div>
-                                <div className="text-xs">{person.massage}</div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                )}
-                {opinion ? (
+              <div className="bg-gray-200 w-[400px]">
+                {!opinion ? (
                   <>
-                    <img src={angleUp} className="w-8 mx-auto" 
+                    <img
+                      src={angleDown}
+                      className="w-8 mx-auto"
+                      onClick={() => setOpinion(true)}
                     />
                   </>
                 ) : (
                   <>
-                    <img src={angleDown} className="w-8 mx-auto" />
+                    <Messages />
+                    <img
+                      src={angleUp}
+                      className="w-8 mx-auto"
+                      onClick={() => setOpinion(false)}
+                    />
                   </>
-                )}{' '}
-              </div>
+                )}
 
+              </div>
               <div>
-                <span onClick={() => navigate(`/dialog/${params.id}`)}>
-                  add opinion
-                </span>
+                <button
+                  data-ripple-light="true"
+                  data-dialog-target="dialog"
+                  className="middle none center mr-4 rounded-lg bg-gradient-to-tr from-green-600 to-green-400 py-3 px-6 font-sans text-xs font-bold uppercase text-white shadow-md shadow-green-500/20 transition-all hover:shadow-lg hover:shadow-green-500/40 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                  onClick={() => setOpen(true)}
+                >
+                  Add Opinion
+                </button>
+              </div>
+              <div>
+                <Dialog model={open} setModel={setOpen} />
               </div>
             </div>
           </div>
@@ -181,6 +129,3 @@ const ById: React.FC = () => {
 };
 
 export default ById;
-
-
-
