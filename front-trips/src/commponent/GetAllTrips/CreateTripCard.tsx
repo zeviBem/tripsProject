@@ -1,10 +1,14 @@
 import { Link, useNavigate } from 'react-router-dom';
 import useDeleteTrip from '../Jotai/DeleteTripGlobal';
 import { TripInterFace } from 'front-trips/src/interfaces/interface';
+import { useState } from 'react';
+import Success from '../notyfi/Success';
 
 const CreateTripCard = (props: TripInterFace) => {
-  const { deleteTripGlobal } = useDeleteTrip();
+  const { deleteTripGlobal , success} = useDeleteTrip();
   const navigate = useNavigate();
+  const [open, setOpen] = useState(false);
+
 
   const tokenStorage = localStorage.getItem('tokenKey');
   const handelPreventDeflate = (event: React.MouseEvent) => {
@@ -39,6 +43,8 @@ const CreateTripCard = (props: TripInterFace) => {
                 onClick={(event) => {
                   handelPreventDeflate(event);
                   deleteTripGlobal(props.id!, tokenStorage!);
+                  setOpen(true)
+
                 }}
               >
                 <path
@@ -48,6 +54,14 @@ const CreateTripCard = (props: TripInterFace) => {
                   d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
                 />
               </svg>
+              {open && (
+                success ? (
+                  <Success open={open} setOpen={setOpen} message='Trip deleted success' color='green' />
+                ) : (
+                  <Success open={open} setOpen={setOpen} message='Error deleting trip' color='red' />
+                )
+              )}
+              {/* // <Success open={open} setOpen={setOpen} message='Trip deleted success' color='red' /> */}
               <div
                 onClick={(event) => {
                   handelPreventDeflate(event);

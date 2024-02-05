@@ -63,19 +63,7 @@ export default function Header() {
               <span className="text-sm font-medium" onClick={() => navigate('/getAllTrips')}>
                   All Trips!
               </span>
-            </div>
-
-            {/* <div className="ml-2 flex cursor-pointer items-center gap-x-1 rounded-md border py-2 px-4 bg-sky-100 hover:bg-sky-200">
-              <span className="text-sm font-medium" onClick={() => navigate('/dialog')}>
-                  All!
-              </span>
-            </div>
-            <div className="ml-2 flex cursor-pointer items-center gap-x-1 rounded-md border py-2 px-4 bg-sky-100 hover:bg-sky-200">
-              <span className="text-sm font-medium" onClick={() => navigate('/localState')}>
-                  State
-              </span>
-            </div> */}
-            
+            </div>            
             <div className="ml-2 flex cursor-pointer items-center gap-x-1 rounded-md border py-2 px-4 bg-sky-100 hover:bg-sky-200">
               {circle()}
               <span
